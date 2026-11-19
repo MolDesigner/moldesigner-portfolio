@@ -239,7 +239,7 @@ function Slide({ project, onOpen }) {
   const figure = figures?.[0]
 
   return (
-    <article className="grid grid-cols-1 gap-8 rounded-2xl border border-line bg-surface/80 p-6 sm:p-8 lg:min-h-[460px] lg:grid-cols-12 lg:gap-10">
+    <article className="slide-enter grid grid-cols-1 gap-8 rounded-2xl border border-line bg-surface/80 p-6 sm:p-8 lg:min-h-[460px] lg:grid-cols-12 lg:gap-10">
       {/* Columna de texto */}
       <div className="flex flex-col lg:col-span-5">
         <div className="flex items-start justify-between gap-4">
@@ -253,7 +253,7 @@ function Slide({ project, onOpen }) {
               rel="noreferrer"
               aria-label={link.text}
               title={link.text}
-              className="rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-100"
+              className="rounded-md p-1.5 text-zinc-500 transition-ui hover:bg-white/5 hover:text-zinc-100"
             >
               <ArrowUpRight className="size-5" />
             </a>
@@ -316,10 +316,10 @@ function Slide({ project, onOpen }) {
                 height={figure.height}
                 loading="lazy"
                 decoding="async"
-                className="h-auto w-auto max-h-full max-w-full flex-none rounded-xl border border-line bg-white/[0.96] p-3 transition-colors group-hover/fig:border-white/25"
+                className="h-auto w-auto max-h-full max-w-full flex-none rounded-xl border border-line bg-white/[0.96] p-3 transition-ui group-hover/fig:border-white/25"
               />
             </span>
-            <span className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-line bg-ink/85 px-2 py-1 font-mono text-[10px] text-zinc-300 opacity-0 transition-opacity group-hover/fig:opacity-100 group-focus-visible/fig:opacity-100">
+            <span className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-line bg-ink/85 px-2 py-1 font-mono text-[10px] text-zinc-300 opacity-0 transition-opacity duration-150 ease-[var(--ease-out)] group-hover/fig:opacity-100 group-focus-visible/fig:opacity-100">
               <Maximize2 className="size-3" aria-hidden="true" />
               Ver en alta resolución
             </span>
@@ -338,7 +338,7 @@ function Slide({ project, onOpen }) {
                   type="button"
                   onClick={() => onOpen(project, index)}
                   aria-label={`Ampliar figura ${index + 1}: ${item.alt}`}
-                  className="size-10 overflow-hidden rounded-md border border-line bg-white transition-colors hover:border-white/30"
+                  className="size-10 overflow-hidden rounded-md border border-line bg-white transition-ui hover:border-white/30"
                 >
                   <img
                     src={item.src}
@@ -384,10 +384,10 @@ function Lightbox({ state, onClose, onStep }) {
       role="dialog"
       aria-modal="true"
       aria-label={figure.alt}
-      className="fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
+      className="modal-backdrop fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
     >
-      <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
+      <div className="modal-panel mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[11px] tracking-wider text-zinc-500 uppercase">{project.label}</p>
           <p className="mt-1 text-sm font-medium text-zinc-100">{project.title}</p>
@@ -396,14 +396,14 @@ function Lightbox({ state, onClose, onStep }) {
           type="button"
           onClick={onClose}
           aria-label="Cerrar"
-          className="rounded-md border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+          className="rounded-md border border-line p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
         >
           <X className="size-5" />
         </button>
       </div>
 
       <div
-        className="mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden py-4"
+        className="modal-panel mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden py-4"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex min-h-0 flex-1 items-center justify-center">
@@ -423,7 +423,7 @@ function Lightbox({ state, onClose, onStep }) {
             <button
               type="button"
               onClick={() => onStep(-1)}
-              className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+              className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
             >
               Anterior
             </button>
@@ -433,7 +433,7 @@ function Lightbox({ state, onClose, onStep }) {
             <button
               type="button"
               onClick={() => onStep(1)}
-              className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+              className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
             >
               Siguiente
             </button>
@@ -505,7 +505,7 @@ export default function ProjectsBento() {
               type="button"
               onClick={() => go(-1)}
               aria-label="Proyecto anterior"
-              className="rounded-lg border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+              className="rounded-lg border border-line p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
             >
               <ArrowLeft className="size-4" />
             </button>
@@ -513,7 +513,7 @@ export default function ProjectsBento() {
               type="button"
               onClick={() => go(1)}
               aria-label="Proyecto siguiente"
-              className="rounded-lg border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+              className="rounded-lg border border-line p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
             >
               <ArrowRight className="size-4" />
             </button>
@@ -522,6 +522,8 @@ export default function ProjectsBento() {
       </header>
 
       <div aria-live="polite" aria-roledescription="carrusel">
+        {/* La key fuerza el remontaje al cambiar de proyecto; slide-enter anima
+            esa entrada con @starting-style en vez de teletransportar el contenido. */}
         <Slide key={project.id} project={project} onOpen={open} />
       </div>
 
@@ -533,7 +535,7 @@ export default function ProjectsBento() {
             onClick={() => setCurrent(index)}
             aria-label={`Ir al proyecto ${index + 1}: ${item.title}`}
             aria-current={index === current}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
+            className={`h-1.5 rounded-full transition-[width,background-color] duration-200 ease-[var(--ease-out)] ${
               index === current ? 'w-8 bg-zinc-200' : 'w-1.5 bg-zinc-700 hover:bg-zinc-500'
             }`}
           />

@@ -28,7 +28,7 @@ function LinkedinIcon(props) {
 }
 
 const iconBtn =
-  'rounded-md p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100'
+  'rounded-md p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100'
 
 export default function Navbar() {
   return (
@@ -48,7 +48,7 @@ export default function Navbar() {
         <ul className="hidden items-center gap-7 text-sm sm:flex">
           {NAV_ITEMS.map((item) => (
             <li key={item.href}>
-              <a href={item.href} className="text-zinc-400 transition-colors hover:text-zinc-100">
+              <a href={item.href} className="text-zinc-400 transition-ui hover:text-zinc-100">
                 {item.label}
               </a>
             </li>

@@ -390,10 +390,10 @@ function Viewer({ items, index, onClose, onStep }) {
       role="dialog"
       aria-modal="true"
       aria-label={item.title}
-      className="fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
+      className="modal-backdrop fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
     >
-      <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
+      <div className="modal-panel mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[11px] tracking-wider text-zinc-500 uppercase">
             {GROUP_LABEL[item.group]} · {item.year}
@@ -404,14 +404,14 @@ function Viewer({ items, index, onClose, onStep }) {
           type="button"
           onClick={onClose}
           aria-label="Cerrar"
-          className="rounded-md border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+          className="rounded-md border border-line p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
         >
           <X className="size-5" />
         </button>
       </div>
 
       <div
-        className="mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden py-4"
+        className="modal-panel mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden py-4"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex min-h-0 flex-1 items-center justify-center">
@@ -439,7 +439,7 @@ function Viewer({ items, index, onClose, onStep }) {
           <button
             type="button"
             onClick={() => onStep(-1)}
-            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
           >
             Anterior
           </button>
@@ -449,7 +449,7 @@ function Viewer({ items, index, onClose, onStep }) {
           <button
             type="button"
             onClick={() => onStep(1)}
-            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
           >
             Siguiente
           </button>
@@ -509,7 +509,7 @@ export default function Logros() {
                 setOpen(null)
               }}
               aria-pressed={active}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[13px] transition-colors ${
+              className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[13px] transition-ui ${
                 active
                   ? 'border-white/20 bg-white/10 text-zinc-100'
                   : 'border-line text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
@@ -523,13 +523,15 @@ export default function Logros() {
         })}
       </div>
 
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {/* La key por categoría remonta la lista al filtrar, y grid-enter atenúa
+          esa entrada en lugar de reemplazar 35 tarjetas de golpe. */}
+      <ul key={group} className="grid-enter grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => (
           <li key={item.id}>
             <button
               type="button"
               onClick={() => setOpen(index)}
-              className={`group flex h-full w-full flex-col rounded-xl border p-4 text-left transition-colors ${
+              className={`group flex h-full w-full flex-col rounded-xl border p-4 text-left transition-ui ${
                 item.highlight
                   ? 'border-amber-300/20 bg-gradient-to-br from-amber-300/[0.06] to-transparent hover:border-amber-300/40'
                   : 'border-line bg-surface/80 hover:border-white/20'
@@ -546,7 +548,7 @@ export default function Logros() {
               <p className="mt-1.5 text-[13px] leading-snug text-zinc-500">{item.issuer}</p>
 
               <span
-                className={`mt-auto inline-flex items-center gap-1.5 pt-4 font-mono text-[11px] transition-colors ${
+                className={`mt-auto inline-flex items-center gap-1.5 pt-4 font-mono text-[11px] transition-ui ${
                   item.doc
                     ? 'text-zinc-500 group-hover:text-zinc-300'
                     : 'text-zinc-600 group-hover:text-zinc-500'

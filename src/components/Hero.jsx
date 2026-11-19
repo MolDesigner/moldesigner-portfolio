@@ -69,21 +69,21 @@ export default function Hero() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-zinc-100 px-5 text-sm font-medium text-zinc-900 transition-colors hover:bg-white"
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-zinc-100 px-5 text-sm font-medium text-zinc-900 transition-ui hover:bg-white"
           >
             <GithubIcon className="size-4" />
             GitHub
-            <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="size-4 transition-transform duration-200 ease-[var(--ease-out)] can-hover:group-hover:-translate-y-0.5 can-hover:group-hover:translate-x-0.5" />
           </a>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-line bg-white/[0.03] px-5 text-sm font-medium text-zinc-100 transition-colors hover:border-white/20 hover:bg-white/[0.06]"
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-line bg-white/[0.03] px-5 text-sm font-medium text-zinc-100 transition-ui hover:border-white/20 hover:bg-white/[0.06]"
           >
             <LinkedinIcon className="size-4" />
             LinkedIn
-            <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="size-4 transition-transform duration-200 ease-[var(--ease-out)] can-hover:group-hover:-translate-y-0.5 can-hover:group-hover:translate-x-0.5" />
           </a>
         </div>
 
@@ -91,7 +91,7 @@ export default function Hero() {
           {FOCUS_AREAS.map(({ icon: Icon, title, detail }) => (
             <li
               key={title}
-              className="flex items-center gap-4 rounded-2xl border border-line bg-surface/80 p-4 transition-colors hover:border-white/15"
+              className="flex items-center gap-4 rounded-2xl border border-line bg-surface/80 p-4 transition-ui hover:border-white/15"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-line bg-white/[0.03]">
                 <Icon className="size-5 text-accent" aria-hidden="true" />

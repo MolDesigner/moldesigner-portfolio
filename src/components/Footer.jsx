@@ -46,7 +46,7 @@ export default function Footer() {
               <a
                 href={href}
                 {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-                className="inline-flex items-center gap-2 text-zinc-400 transition-colors hover:text-zinc-100"
+                className="inline-flex items-center gap-2 text-zinc-400 transition-ui hover:text-zinc-100"
               >
                 <Icon className="size-4" aria-hidden="true" />
                 {label}

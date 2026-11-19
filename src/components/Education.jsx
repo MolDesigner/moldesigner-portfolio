@@ -46,7 +46,7 @@ export default function Education() {
         {DEGREES.map(({ icon: Icon, status, title, school, note }) => (
           <article
             key={title}
-            className="rounded-2xl border border-line bg-surface/80 p-6 transition-colors hover:border-white/15 sm:p-7"
+            className="rounded-2xl border border-line bg-surface/80 p-6 transition-ui hover:border-white/15 sm:p-7"
           >
             <div className="flex items-center justify-between gap-4">
               <span className="flex size-11 items-center justify-center rounded-xl border border-line bg-white/[0.03]">
@@ -69,7 +69,7 @@ export default function Education() {
         {AWARDS.map(({ icon: Icon, title, detail }) => (
           <article
             key={title}
-            className="flex items-center gap-4 rounded-2xl border border-amber-300/15 bg-gradient-to-br from-amber-300/[0.06] to-transparent p-5 transition-colors hover:border-amber-300/30"
+            className="flex items-center gap-4 rounded-2xl border border-amber-300/15 bg-gradient-to-br from-amber-300/[0.06] to-transparent p-5 transition-ui hover:border-amber-300/30"
           >
             <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-300/10">
               <Icon className="size-5 text-amber-300" aria-hidden="true" />

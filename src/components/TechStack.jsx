@@ -39,7 +39,7 @@ export default function TechStack() {
           {CATEGORIES.map(({ title, icon: Icon, tone, tools, layout = '' }) => (
             <div
               key={title}
-              className={`rounded-2xl border border-line bg-ink/60 p-6 transition-colors hover:border-white/15 ${layout}`}
+              className={`rounded-2xl border border-line bg-ink/60 p-6 transition-ui hover:border-white/15 ${layout}`}
             >
               <div className="flex items-center gap-3">
                 <span className="flex size-10 items-center justify-center rounded-xl border border-line bg-white/[0.03]">
@@ -51,7 +51,7 @@ export default function TechStack() {
                 {tools.map((tool) => (
                   <li
                     key={tool}
-                    className="rounded-lg border border-line bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-zinc-200 transition-colors hover:border-white/20"
+                    className="rounded-lg border border-line bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-zinc-200 transition-ui hover:border-white/20"
                   >
                     {tool}
                   </li>

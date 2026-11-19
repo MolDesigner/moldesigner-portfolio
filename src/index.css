@@ -15,7 +15,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-up: fade-up 0.7s var(--ease-out) both;
 
   @keyframes fade-up {
     from {
@@ -64,18 +64,6 @@
   }
 }
 
-/* Sin @layer a propósito: las utilidades de Tailwind viven en una capa y
-   `transition-colors` sobrescribiría la transición de transform desde @layer base.
-   El CSS sin capa gana a cualquier capa, así que la animación del :active se respeta. */
-button,
-a {
-  transition:
-    transform 160ms var(--ease-out),
-    color 160ms var(--ease-out),
-    background-color 160ms var(--ease-out),
-    border-color 160ms var(--ease-out);
-}
-
 /* Respuesta inmediata al pulsar: la interfaz confirma que escuchó. */
 button:active,
 a:active {
@@ -121,6 +109,74 @@ p a:active {
   }
   &:hover::before {
     opacity: 1;
+  }
+}
+
+/* Transición estándar de los controles. Sustituye a `transition-colors` porque
+   además incluye `transform`, necesario para que el hundido del :active se anime.
+   Vive en la capa de utilidades, así que cualquier utilidad más específica
+   (los puntos del carrusel, por ejemplo) la puede sobrescribir. */
+@utility transition-ui {
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+}
+
+/* En táctil, un toque dispara :hover y deja el estado pegado. El movimiento
+   de hover solo tiene sentido con un puntero fino de verdad. */
+@custom-variant can-hover (@media (hover: hover) and (pointer: fine));
+
+/* Entradas con @starting-style: transiciones, no keyframes, para que se puedan
+   interrumpir y reorientar a mitad de camino. Al cambiar de diapositiva o de
+   filtro rápido, una keyframe reiniciaría desde cero. */
+
+/* Diapositiva del carrusel: se repite decenas de veces por visita, así que
+   el movimiento es mínimo y corto. */
+@utility slide-enter {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Contenido de la rejilla al cambiar de filtro: solo opacidad, sin escalonado.
+   Con 35 tarjetas, un stagger de 50 ms tardaría 1.75 s en terminar. */
+@utility grid-enter {
+  opacity: 1;
+  transition: opacity 180ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+/* Modal: el fondo atenúa y el panel entra desde scale(0.96).
+   Nunca desde scale(0): nada en el mundo real aparece de la nada. */
+@utility modal-backdrop {
+  opacity: 1;
+  transition: opacity 220ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+@utility modal-panel {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.96);
   }
 }
 
