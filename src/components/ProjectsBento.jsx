@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ArrowUpRight, Microscope, Network, Pill, ScanSearch, Sparkles, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, Microscope, Network, Pill, ScanSearch, Sparkles, X } from 'lucide-react'
 
 const IMG = '/images/projects'
 
@@ -9,32 +9,34 @@ const PROJECTS = [
     label: 'Tesis de Maestría · En curso',
     title: 'Descubrimiento Antibacteriano con IA',
     summary:
-      'Red neuronal de paso de mensajes dirigido (D-MPNN, Chemprop) entrenada en modo multitarea sobre ocho ensayos de HTS de PubChem BioAssay contra dianas esenciales de Staphylococcus aureus —NadD, UgtP, TarO/WTA, LtaS, MgrA, ADN helicasa—, donde la fracción de activos ronda el 1 %.',
-    details: [
-      'Partición por scaffold de Bemis-Murcko 80:10:10; hiperparámetros con TPE (Optuna) y tres semillas por configuración.',
-      'Métricas principales AUC-PR y MCC frente a la fracción basal de activos; ROC, sensibilidad y especificidad como complemento.',
-      'Cribado de ZINC20, COCONUT y LANaPDB con dominio de aplicabilidad por Tanimoto sobre ECFP4, y explicabilidad por búsqueda de árbol de Monte Carlo para extraer el subgrafo responsable de cada predicción.',
+      'D-MPNN multitarea (Chemprop) entrenada sobre ocho ensayos de HTS de PubChem BioAssay contra dianas esenciales de S. aureus, donde la fracción de activos ronda el 1 %.',
+    metrics: [
+      { value: '8', label: 'dianas en multitarea' },
+      { value: '80:10:10', label: 'split por scaffold' },
+      { value: 'AUC-PR', label: 'métrica principal' },
     ],
-    tags: ['Chemprop D-MPNN', 'Multitarea', 'PubChem BioAssay', 'Optuna TPE', 'AUC-PR / MCC', 'MCTS'],
+    tags: ['Chemprop D-MPNN', 'Multitarea', 'Optuna TPE', 'MCTS'],
     icon: Network,
     tone: 'text-sky-300',
-    layout: 'md:col-span-2 lg:row-span-2',
-    featured: true,
+    accent: 'sky',
+    illustration: true,
+    figureNote: 'Paso de mensajes dirigido sobre el grafo molecular.',
   },
   {
     id: 'blood-cells',
     label: 'Visión computacional · Hematología',
     title: 'Clasificación de Células Sanguíneas',
     summary:
-      'CNN en cascada en PyTorch sobre KU-Optofil PBC (31,488 imágenes, 13 clases): un generalista de 10 superclases enruta hacia tres especialistas binarios. F1 macro de 0.8319 ± 0.0102 en prueba, por encima del baseline de modelo único (0.8244 ± 0.0135) y de la DenseNet-121 del artículo original (0.8059), con exactitud de 0.9562 ± 0.0010.',
-    details: [
-      'Generalista de 10 clases: F1 macro 0.9546 ± 0.0012 y exactitud 0.9856 ± 0.0005 en prueba.',
-      'Recall de enrutamiento: 99.5 % neutrófilo, 96.3 % linfoide, 89.6 % granulocito inmaduro.',
-      'Umbrales por semilla derivados solo sobre validación (mediana de la meseta de F1); 21 checkpoints, tres semillas (42, 1337, 2026).',
+      'CNN en cascada en PyTorch sobre KU-Optofil PBC: un generalista de 10 superclases enruta hacia tres especialistas binarios para resolver 13 clases morfológicas.',
+    metrics: [
+      { value: '0.832', label: 'F1 macro en prueba' },
+      { value: '95.6 %', label: 'exactitud' },
+      { value: '31,488', label: 'imágenes' },
     ],
-    tags: ['PyTorch', 'CNN en cascada', '13 clases', 'Optuna', 'F1 0.832'],
+    tags: ['PyTorch', 'CNN en cascada', '13 clases', 'Optuna'],
     icon: Microscope,
     tone: 'text-rose-300',
+    accent: 'rose',
     figures: [
       {
         src: `${IMG}/pbc-matriz-13clases.jpg`,
@@ -55,15 +57,16 @@ const PROJECTS = [
     label: 'Histopatología · Robustez entre hospitales',
     title: 'Detección de Metástasis',
     summary:
-      'CNN binaria programada desde cero en PyTorch sobre Camelyon17-WILDS (455,954 recortes de 96 × 96 de cinco hospitales). La configuración con aumento de color y dropout 0.2 alcanza AUC 0.980 ± 0.003 y exactitud 0.938 ± 0.004 en un hospital nunca visto, frente a AUC 0.657 ± 0.126 sin aumento de datos.',
-    details: [
-      'Tres bloques convolucionales (32 → 64 → 128) con un solo logit, tres semillas (42, 43, 44) por configuración y 15 configuraciones comparadas.',
-      'Aumento de color por ColorJitter y perturbación en el espacio óptico H&E/DAB (deconvolución de Ruifrok & Johnston, esquema de Tellez).',
-      'Como triaje con umbral calibrado en el hospital de validación: 98.4 % de sensibilidad ahorrando 31.7 % de los parches, o 99.7 % ahorrando 12.9 %.',
+      'CNN binaria programada desde cero sobre Camelyon17-WILDS. El aumento de color en el espacio óptico H&E/DAB sostiene el desempeño en un hospital nunca visto.',
+    metrics: [
+      { value: '0.980', label: 'AUC fuera de dominio' },
+      { value: '98.4 %', label: 'sensibilidad en triaje' },
+      { value: '31.7 %', label: 'carga evitada' },
     ],
-    tags: ['PyTorch', 'Camelyon17-WILDS', 'H&E/DAB', 'AUC 0.980', 'Grad-CAM'],
+    tags: ['PyTorch', 'Camelyon17-WILDS', 'H&E/DAB', 'Grad-CAM'],
     icon: ScanSearch,
     tone: 'text-violet-300',
+    accent: 'violet',
     figures: [
       {
         src: `${IMG}/camelyon-roc-triaje.jpg`,
@@ -90,15 +93,16 @@ const PROJECTS = [
     label: 'Modelos generativos',
     title: 'Generación Molecular de Novo',
     summary:
-      'Modelo recurrente LSTM en PyTorch sobre SMILES, evaluado con el benchmark MOSES en 30,000 muestras. La variante v2 alcanza 99.0 % de validez, unicidad 1.000 @1k y 0.999 @10k, novedad 82.9 %, filtros 99.6 % y FCD/Test de 0.082, con perplejidad de validación 1.585.',
-    details: [
-      'Diversidad interna IntDiv1 0.857 e IntDiv2 0.850; similitud al test SNN 0.607 y cobertura de fragmentos Frag/Test 0.9996.',
-      'Barridos de capacidad (h512), dropout y temperatura de muestreo; bitácora de métricas por corrida y semilla.',
-      'Preprocesamiento con ClearSMILES y comparación contra la línea base v0 (validez 96.6 %, FCD 0.162).',
+      'Modelo recurrente LSTM sobre SMILES evaluado con el benchmark MOSES en 30,000 muestras, con barridos de capacidad, dropout y temperatura de muestreo.',
+    metrics: [
+      { value: '99.0 %', label: 'validez química' },
+      { value: '0.082', label: 'FCD / Test' },
+      { value: '82.9 %', label: 'novedad' },
     ],
-    tags: ['LSTM', 'SMILES', 'MOSES', 'Validez 99.0 %', 'FCD 0.082'],
+    tags: ['LSTM', 'SMILES', 'MOSES', 'ClearSMILES'],
     icon: Sparkles,
     tone: 'text-amber-300',
+    accent: 'amber',
     figures: [
       {
         src: `${IMG}/moses-qed-sa.jpg`,
@@ -119,16 +123,16 @@ const PROJECTS = [
     label: 'Tesis de Licenciatura',
     title: 'Inhibidores in silico de MRP4/ABCC4',
     summary:
-      'Cribado virtual de 36,454 productos naturales del Natural Products Atlas y 9,125 fármacos de DrugBank contra el transportador MRP4, diana de quimiorresistencia en leucemia linfoblástica aguda. El reposicionamiento identificó imatinib (ΔG = −64.55 kcal/mol) y avatrombopag (ΔG = −60.81 kcal/mol), ambos por encima del control ceefourin-1 (ΔG = −56.65 kcal/mol).',
-    details: [
-      'Ensemble docking con GNINA v1.2.3 (CNN score, exhaustividad 16) sobre cuatro conformaciones de MRP4; validación retrospectiva con AUC de 90.4 (8IZ7), 87.1 (9KRM) y 83.3 (8ZBU).',
-      'Filtros de exclusión estructural y toxicológica (Brenk, NIH, PAINS), normalización de afinidad SILE y optimización multiparamétrica (MPO) hasta los 1,000 mejores de cada biblioteca.',
-      'Dinámica molecular de 100 ns por complejo y metadinámica de 25 ns en membrana POPC; Trp995, Phe368, His152 y Met992 resultaron determinantes para la inhibición.',
+      'Cribado virtual de 36,454 productos naturales y 9,125 fármacos contra MRP4, diana de quimiorresistencia en leucemia linfoblástica aguda.',
+    metrics: [
+      { value: '−64.55', label: 'ΔG imatinib (kcal/mol)' },
+      { value: '90.4', label: 'AUC retrospectivo (8IZ7)' },
+      { value: '100 ns', label: 'dinámica por complejo' },
     ],
-    tags: ['Cribado virtual', 'GNINA', 'Ensemble docking', 'SILE / MPO', 'Dinámica molecular'],
+    tags: ['GNINA', 'Ensemble docking', 'SILE / MPO', 'Metadinámica'],
     icon: Pill,
     tone: 'text-emerald-300',
-    layout: 'md:col-span-2',
+    accent: 'emerald',
     link: { href: 'https://ri-ng.uaq.mx/handle/123456789/13105', text: 'Ver tesis en el repositorio UAQ' },
     figures: [
       {
@@ -153,6 +157,14 @@ const PROJECTS = [
   },
 ]
 
+const ACCENT_GLOW = {
+  sky: 'bg-[radial-gradient(closest-side,rgb(125_211_252/0.10),transparent)]',
+  rose: 'bg-[radial-gradient(closest-side,rgb(253_164_175/0.08),transparent)]',
+  violet: 'bg-[radial-gradient(closest-side,rgb(167_139_250/0.08),transparent)]',
+  amber: 'bg-[radial-gradient(closest-side,rgb(252_211_77/0.08),transparent)]',
+  emerald: 'bg-[radial-gradient(closest-side,rgb(52_211_153/0.08),transparent)]',
+}
+
 /* Ilustración: grafo molecular con aristas activas (paso de mensajes) */
 const GRAPH_NODES = [
   [110, 50], [160, 80], [160, 140], [110, 170], [60, 140], [60, 80],
@@ -166,7 +178,7 @@ const HOT = new Set([1, 2, 6])
 
 function MessagePassingGraph() {
   return (
-    <svg viewBox="0 0 272 240" className="h-40 w-auto sm:h-48" aria-hidden="true">
+    <svg viewBox="0 0 272 240" className="h-full max-h-56 w-auto" aria-hidden="true">
       {GRAPH_EDGES.map(([a, b]) => {
         const hot = HOT.has(a) && HOT.has(b)
         const [x1, y1] = GRAPH_NODES[a]
@@ -201,99 +213,111 @@ function MessagePassingGraph() {
   )
 }
 
-function FigureStrip({ figures, project, onOpen }) {
+function Slide({ project, onOpen }) {
+  const { label, title, summary, metrics, tags, icon: Icon, tone, accent, link, figures, illustration, figureNote } =
+    project
+  const figure = figures?.[0]
+
   return (
-    <ul className="mt-6 grid grid-cols-2 gap-2">
-      {figures.map((figure, index) => (
-        <li key={figure.src} className={index === 0 && figures.length % 2 === 1 ? 'col-span-2' : ''}>
+    <article className="grid grid-cols-1 gap-8 rounded-2xl border border-line bg-surface/80 p-6 sm:p-8 lg:min-h-[460px] lg:grid-cols-12 lg:gap-10">
+      {/* Columna de texto */}
+      <div className="flex flex-col lg:col-span-5">
+        <div className="flex items-start justify-between gap-4">
+          <span className="flex size-11 items-center justify-center rounded-xl border border-line bg-white/[0.03]">
+            <Icon className={`size-5 ${tone}`} aria-hidden="true" />
+          </span>
+          {link && (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={link.text}
+              title={link.text}
+              className="rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-100"
+            >
+              <ArrowUpRight className="size-5" />
+            </a>
+          )}
+        </div>
+
+        <p className="mt-6 font-mono text-[11px] tracking-wider text-zinc-500 uppercase">{label}</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-balance text-zinc-100">{title}</h3>
+        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-pretty">{summary}</p>
+
+        <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-line pt-5">
+          {metrics.map((metric) => (
+            <div key={metric.label}>
+              <dt className="sr-only">{metric.label}</dt>
+              <dd>
+                <span className={`block font-mono text-lg leading-none font-medium ${tone}`}>{metric.value}</span>
+                <span className="mt-1.5 block text-[11px] leading-tight text-zinc-500">{metric.label}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
+          {tags.map((tag) => (
+            <li
+              key={tag}
+              className="rounded-md border border-line bg-white/[0.03] px-2 py-0.5 font-mono text-[11px] text-zinc-300"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Columna de figura */}
+      <div className="flex flex-col lg:col-span-7">
+        {illustration ? (
+          <div
+            className={`flex aspect-[16/10] w-full items-center justify-center rounded-xl border border-line ${ACCENT_GLOW[accent]}`}
+          >
+            <MessagePassingGraph />
+          </div>
+        ) : (
           <button
             type="button"
-            onClick={() => onOpen(project, index)}
-            className="group/fig block w-full overflow-hidden rounded-lg border border-line bg-white transition-colors hover:border-white/25"
+            onClick={() => onOpen(project, 0)}
             aria-label={`Ampliar figura: ${figure.alt}`}
+            className="group/fig relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-line bg-white/[0.96] transition-colors hover:border-white/25"
           >
             <img
               src={figure.src}
               alt={figure.alt}
               loading="lazy"
               decoding="async"
-              className={`w-full object-cover transition-transform duration-500 group-hover/fig:scale-[1.03] ${
-                index === 0 && figures.length % 2 === 1 ? 'h-36 sm:h-44' : 'h-24 sm:h-28'
-              }`}
+              className="h-full w-full object-contain p-3"
             />
+            <span className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-line bg-ink/85 px-2 py-1 font-mono text-[10px] text-zinc-300 opacity-0 transition-opacity group-hover/fig:opacity-100 group-focus-visible/fig:opacity-100">
+              <Maximize2 className="size-3" aria-hidden="true" />
+              Ver en alta resolución
+            </span>
           </button>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function ProjectCard({ project, onOpen }) {
-  const { label, title, summary, details, tags, icon: Icon, tone, layout = '', featured, link, figures } = project
-
-  return (
-    <article
-      className={`group flex flex-col rounded-2xl border border-line bg-surface/80 p-6 transition-colors duration-300 hover:border-white/15 sm:p-7 ${layout}`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <span className="flex size-11 items-center justify-center rounded-xl border border-line bg-white/[0.03]">
-          <Icon className={`size-5 ${tone}`} aria-hidden="true" />
-        </span>
-        {link && (
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={link.text}
-            title={link.text}
-            className="rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-100"
-          >
-            <ArrowUpRight className="size-5" />
-          </a>
         )}
-      </div>
 
-      {featured && (
-        <div className="relative my-6 flex flex-1 items-center justify-center rounded-xl bg-[radial-gradient(closest-side,rgb(125_211_252/0.08),transparent)]">
-          <MessagePassingGraph />
-          <span className="absolute right-0 bottom-0 rounded-md border border-line bg-ink/80 px-2 py-1 font-mono text-[10px] text-zinc-400">
-            target: <em className="text-sky-300">S. aureus</em>
-          </span>
+        <div className="mt-4 flex h-11 items-center justify-between gap-4">
+          <p className="line-clamp-2 text-[11px] leading-snug text-zinc-500">
+            {illustration ? figureNote : figure.alt}
+          </p>
+          {figures && figures.length > 1 && (
+            <div className="flex shrink-0 gap-1.5">
+              {figures.map((item, index) => (
+                <button
+                  key={item.src}
+                  type="button"
+                  onClick={() => onOpen(project, index)}
+                  aria-label={`Ampliar figura ${index + 1}: ${item.alt}`}
+                  className="size-10 overflow-hidden rounded-md border border-line bg-white transition-colors hover:border-white/30"
+                >
+                  <img src={item.src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-
-      <p className={`font-mono text-[11px] tracking-wider text-zinc-500 uppercase ${featured ? '' : 'mt-6'}`}>
-        {label}
-      </p>
-      <h3
-        className={`mt-2 font-semibold tracking-tight text-zinc-100 ${featured ? 'text-2xl sm:text-3xl' : 'text-lg'}`}
-      >
-        {title}
-      </h3>
-      <p className="mt-3 text-sm leading-relaxed text-pretty">{summary}</p>
-
-      {details && (
-        <ul className="mt-4 space-y-2 border-l border-line pl-4 text-[13px] leading-relaxed text-zinc-500">
-          {details.map((detail) => (
-            <li key={detail} className="text-pretty">
-              {detail}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {figures && <FigureStrip figures={figures} project={project} onOpen={onOpen} />}
-
-      <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
-        {tags.map((tag) => (
-          <li
-            key={tag}
-            className="rounded-md border border-line bg-white/[0.03] px-2 py-0.5 font-mono text-[11px] text-zinc-300"
-          >
-            {tag}
-          </li>
-        ))}
-      </ul>
+      </div>
     </article>
   )
 }
@@ -383,38 +407,97 @@ function Lightbox({ state, onClose, onStep }) {
   )
 }
 
+const pad = (n) => String(n).padStart(2, '0')
+
 export default function ProjectsBento() {
+  const [current, setCurrent] = useState(0)
   const [lightbox, setLightbox] = useState(null)
+
+  const total = PROJECTS.length
+  const go = useCallback((delta) => setCurrent((index) => (index + delta + total) % total), [total])
 
   const open = useCallback((project, index) => setLightbox({ project, index }), [])
   const close = useCallback(() => setLightbox(null), [])
   const step = useCallback((delta) => {
-    setLightbox((current) => {
-      if (!current) return current
-      const total = current.project.figures.length
-      return { ...current, index: (current.index + delta + total) % total }
+    setLightbox((state) => {
+      if (!state) return state
+      const count = state.project.figures.length
+      return { ...state, index: (state.index + delta + count) % count }
     })
   }, [])
 
+  /* Flechas del teclado: navegan el carrusel solo si el lightbox está cerrado */
+  useEffect(() => {
+    if (lightbox) return
+    const onKey = (event) => {
+      const tag = event.target.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || event.target.isContentEditable) return
+      if (event.key === 'ArrowRight') go(1)
+      if (event.key === 'ArrowLeft') go(-1)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [go, lightbox])
+
+  const project = PROJECTS[current]
+
   return (
-    <section id="proyectos" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 sm:px-8 md:py-28">
-      <header className="mb-10 md:mb-12">
-        <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
-          <span className="text-accent">01</span> · Investigación
-        </p>
-        <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-          Proyectos destacados
-        </h2>
-        <p className="mt-3 max-w-2xl text-pretty">
-          De la química computacional clásica al aprendizaje profundo: modelos para encontrar, generar y
-          evaluar moléculas, y para leer imágenes biomédicas. Haz clic en cualquier figura para verla en
-          alta resolución con su pie técnico.
-        </p>
+    <section id="proyectos" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-20">
+      <header className="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
+            <span className="text-accent">01</span> · Investigación
+          </p>
+          <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Proyectos destacados
+          </h2>
+          <p className="mt-3 max-w-xl text-pretty">
+            De la química computacional clásica al aprendizaje profundo: modelos para encontrar, generar y
+            evaluar moléculas, y para leer imágenes biomédicas.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-xs text-zinc-500">
+            <span className="text-zinc-200">{pad(current + 1)}</span> / {pad(total)}
+          </span>
+          <div className="flex gap-1.5">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Proyecto anterior"
+              className="rounded-lg border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+            >
+              <ArrowLeft className="size-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Proyecto siguiente"
+              className="rounded-lg border border-line p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-100"
+            >
+              <ArrowRight className="size-4" />
+            </button>
+          </div>
+        </div>
       </header>
 
-      <div className="grid auto-rows-auto gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {PROJECTS.map((project) => (
-          <ProjectCard key={project.id} project={project} onOpen={open} />
+      <div aria-live="polite" aria-roledescription="carrusel">
+        <Slide key={project.id} project={project} onOpen={open} />
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {PROJECTS.map((item, index) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setCurrent(index)}
+            aria-label={`Ir al proyecto ${index + 1}: ${item.title}`}
+            aria-current={index === current}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              index === current ? 'w-8 bg-zinc-200' : 'w-1.5 bg-zinc-700 hover:bg-zinc-500'
+            }`}
+          />
         ))}
       </div>
 
