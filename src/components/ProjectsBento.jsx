@@ -40,12 +40,16 @@ const PROJECTS = [
     figures: [
       {
         src: `${IMG}/pbc-matriz-13clases.jpg`,
+        width: 1600,
+        height: 1543,
         alt: 'Matriz de confusión normalizada de 13 clases del sistema en cascada',
         caption:
           'Matriz de confusión del sistema completo de 13 clases sobre prueba (6,310 imágenes), normalizada por fila, con el ensamble de tres semillas. Las clases mayoritarias superan 0.93; la confusión residual se concentra en el par mielocito / metamielocito y en linfocito reactivo.',
       },
       {
         src: `${IMG}/pbc-mapas-activacion.jpg`,
+        width: 1600,
+        height: 534,
         alt: 'Mapas de activación de la CNN sobre un neutrófilo segmentado',
         caption:
           'Mapas de activación de un neutrófilo segmentado: entrada de 368 × 368 × 3, bloque 1 (32 filtros, campo receptivo 3 px) y bloque 5 (512 filtros, 23 × 23, campo receptivo ~170 px). El núcleo lobulado domina la respuesta de las capas profundas.',
@@ -70,18 +74,24 @@ const PROJECTS = [
     figures: [
       {
         src: `${IMG}/camelyon-roc-triaje.jpg`,
+        width: 1600,
+        height: 759,
         alt: 'Curvas ROC de validación y prueba por semilla',
         caption:
           'Curvas ROC de la configuración B con dropout 0.2 en el hospital de validación (AUC 0.947–0.959) y en el hospital de prueba no visto (AUC 0.977–0.983). El punto marcado es el umbral de triaje al 95 % de sensibilidad objetivo.',
       },
       {
         src: `${IMG}/camelyon-sensibilidad-ahorro.jpg`,
+        width: 1600,
+        height: 1055,
         alt: 'Curva de compromiso entre sensibilidad y ahorro de revisión',
         caption:
           'Compromiso entre sensibilidad empírica y carga de trabajo evitada en el hospital de prueba, con el umbral calibrado en el hospital de validación: 31.7 % de ahorro al 98.4 % de sensibilidad, 12.9 % al 99.7 % y 5.0 % al 99.9 %.',
       },
       {
         src: `${IMG}/camelyon-mosaico-metastasis.jpg`,
+        width: 1600,
+        height: 1467,
         alt: 'Mosaico de recortes con metástasis de los cinco hospitales',
         caption:
           'Recortes de tejido con metástasis de los cinco centros médicos. La variación de tinción entre hospitales es la fuente del desplazamiento de dominio que el aumento de color busca corregir.',
@@ -106,12 +116,16 @@ const PROJECTS = [
     figures: [
       {
         src: `${IMG}/moses-qed-sa.jpg`,
+        width: 1000,
+        height: 600,
         alt: 'Moléculas generadas con sus valores de QED y accesibilidad sintética',
         caption:
           'Muestras del modelo v2 anotadas con QED (similitud a fármaco) y SA score (accesibilidad sintética). Los valores de QED entre 0.73 y 0.93 con SA menor a 3.2 indican estructuras sintéticamente razonables.',
       },
       {
         src: `${IMG}/moses-muestras.jpg`,
+        width: 920,
+        height: 540,
         alt: 'Rejilla de doce moléculas generadas de novo',
         caption:
           'Doce moléculas generadas de novo por el modelo recurrente, decodificadas desde SMILES. El 99.0 % de las cadenas muestreadas son químicamente válidas y el 82.9 % no aparece en el conjunto de entrenamiento.',
@@ -137,18 +151,24 @@ const PROJECTS = [
     figures: [
       {
         src: `${IMG}/mrp4-embudo-cribado.jpg`,
+        width: 1600,
+        height: 893,
         alt: 'Embudo de cribado de las bibliotecas Natural Products Atlas y DrugBank',
         caption:
           'Embudo del flujo optimizado. Natural Products Atlas: 29,379 → 26,483 tras el filtro de peso molecular → 7,365 tras los filtros de toxicidad e interferencia (Brenk, NIH, PAINS) → top 1,000 por MPO. DrugBank: 9,125 → 7,395 → 3,556 → top 1,000.',
       },
       {
         src: `${IMG}/mrp4-dinamica-frame820.jpg`,
+        width: 1003,
+        height: 1600,
         alt: 'Render del complejo MRP4-ligando durante la dinámica molecular',
         caption:
           'Complejo MRP4 (silvestre) con el ligando alojado en el sitio de unión, fotograma 820 de una simulación de 100 ns en membrana POPC con agua TIP3P y NaCl 0.15 M, ensamble NPT a 310.15 K.',
       },
       {
         src: `${IMG}/mrp4-interacciones-avatrombopag.jpg`,
+        width: 1500,
+        height: 644,
         alt: 'Diagrama de interacciones proteína-ligando de avatrombopag con MRP4',
         caption:
           'Perfil de interacciones del complejo MRP4–avatrombopag a lo largo de la trayectoria. Los contactos persistentes con Trp995, Phe368 y Met992 sostienen la afinidad teórica de −60.81 kcal/mol obtenida por metadinámica.',
@@ -281,15 +301,24 @@ function Slide({ project, onOpen }) {
             type="button"
             onClick={() => onOpen(project, 0)}
             aria-label={`Ampliar figura: ${figure.alt}`}
-            className="group/fig relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-line bg-white/[0.96] transition-colors hover:border-white/25"
+            className="group/fig relative block aspect-[16/10] w-full rounded-xl"
           >
-            <img
-              src={figure.src}
-              alt={figure.alt}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-contain p-3"
-            />
+            {/* El panel blanco se ajusta a la figura en vez de enmarcarla: con un
+                marco fijo, una matriz cuadrada dejaba 207 px de bandas vacías.
+                El contenedor absoluto da al <img> una altura definida; con
+                `h-full` sobre `aspect-ratio` se crea un ciclo y la imagen
+                desbordaba la tarjeta. */}
+            <span className="absolute inset-0 flex items-center justify-center">
+              <img
+                src={figure.src}
+                alt={figure.alt}
+                width={figure.width}
+                height={figure.height}
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-auto max-h-full max-w-full flex-none rounded-xl border border-line bg-white/[0.96] p-3 transition-colors group-hover/fig:border-white/25"
+              />
+            </span>
             <span className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-md border border-line bg-ink/85 px-2 py-1 font-mono text-[10px] text-zinc-300 opacity-0 transition-opacity group-hover/fig:opacity-100 group-focus-visible/fig:opacity-100">
               <Maximize2 className="size-3" aria-hidden="true" />
               Ver en alta resolución
@@ -311,7 +340,15 @@ function Slide({ project, onOpen }) {
                   aria-label={`Ampliar figura ${index + 1}: ${item.alt}`}
                   className="size-10 overflow-hidden rounded-md border border-line bg-white transition-colors hover:border-white/30"
                 >
-                  <img src={item.src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  <img
+                    src={item.src}
+                    alt=""
+                    width={40}
+                    height={40}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -444,13 +481,13 @@ export default function ProjectsBento() {
   const project = PROJECTS[current]
 
   return (
-    <section id="proyectos" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-20">
+    <section id="proyectos" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 sm:px-8 md:py-28">
       <header className="mb-10 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
             <span className="text-accent">01</span> · Investigación
           </p>
-          <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-[2.5rem] sm:leading-[1.1]">
             Proyectos destacados
           </h2>
           <p className="mt-3 max-w-xl text-pretty">

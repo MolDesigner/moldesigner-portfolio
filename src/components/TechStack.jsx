@@ -30,7 +30,7 @@ export default function TechStack() {
           <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
             <span className="text-accent">02</span> · Herramientas
           </p>
-          <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-gradient mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
             Stack científico y computacional
           </h2>
         </header>

@@ -38,7 +38,7 @@ export default function Hero() {
         className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[min(900px,140vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(125_211_252/0.16),rgb(167_139_250/0.08)_55%,transparent)] blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 md:pb-24">
+      <div className="relative mx-auto max-w-6xl px-5 pt-16 pb-14 sm:px-8 sm:pt-20 md:pb-20">
         <span className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] py-1 pr-3 pl-1.5 font-mono text-xs text-zinc-300">
           <span className="relative flex size-4 items-center justify-center">
             <span className="absolute size-2 animate-ping rounded-full bg-accent/50" />

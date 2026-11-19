@@ -37,7 +37,7 @@ export default function Education() {
         <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
           <span className="text-accent">03</span> · Trayectoria
         </p>
-        <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="text-gradient mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
           Educación y reconocimientos
         </h2>
       </header>
@@ -61,7 +61,11 @@ export default function Education() {
             <p className="mt-3 text-sm text-pretty text-zinc-500">{note}</p>
           </article>
         ))}
+      </div>
 
+      {/* Los reconocimientos van en su propia fila: mezclarlos con las tarjetas
+          de titulación dejaba un hueco de 144 px bajo las más cortas. */}
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {AWARDS.map(({ icon: Icon, title, detail }) => (
           <article
             key={title}

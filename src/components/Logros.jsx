@@ -393,7 +393,7 @@ function Viewer({ items, index, onClose, onStep }) {
       className="fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
     >
-      <div className="mx-auto flex w-full max-w-4xl items-start justify-between gap-4">
+      <div className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[11px] tracking-wider text-zinc-500 uppercase">
             {GROUP_LABEL[item.group]} · {item.year}
@@ -411,7 +411,7 @@ function Viewer({ items, index, onClose, onStep }) {
       </div>
 
       <div
-        className="mx-auto flex w-full max-w-4xl flex-1 flex-col overflow-hidden py-4"
+        className="mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden py-4"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex min-h-0 flex-1 items-center justify-center">
@@ -419,6 +419,7 @@ function Viewer({ items, index, onClose, onStep }) {
             <img
               src={item.doc}
               alt={`Documento: ${item.title}`}
+              decoding="async"
               className="max-h-full max-w-full rounded-lg bg-white object-contain"
             />
           ) : (
@@ -482,12 +483,12 @@ export default function Logros() {
   const withDoc = ACHIEVEMENTS.filter((item) => item.doc).length
 
   return (
-    <section id="logros" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-20">
+    <section id="logros" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 sm:px-8 md:py-28">
       <header className="mb-8">
         <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
           <span className="text-accent">04</span> · Trayectoria
         </p>
-        <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-[2.5rem] sm:leading-[1.1]">
           Logros y certificados
         </h2>
         <p className="mt-3 max-w-2xl text-pretty">

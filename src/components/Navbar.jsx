@@ -33,6 +33,12 @@ const iconBtn =
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-ink/70 backdrop-blur-xl">
+      <a
+        href="#proyectos"
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-2 focus-visible:left-4 focus-visible:z-50 focus-visible:rounded-md focus-visible:border focus-visible:border-line focus-visible:bg-surface focus-visible:px-3 focus-visible:py-2 focus-visible:text-sm focus-visible:text-zinc-100"
+      >
+        Saltar al contenido
+      </a>
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2 font-mono text-sm text-zinc-100">
           <FlaskConical className="size-4 text-accent" aria-hidden="true" />
