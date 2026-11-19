@@ -26,3 +26,5 @@ dist-ssr
 # Skills de agentes instaladas localmente (no forman parte del portafolio)
 .claude/skills/
 skills-lock.json
+.vercel
+.env*
