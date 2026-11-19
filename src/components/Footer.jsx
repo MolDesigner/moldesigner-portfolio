@@ -23,7 +23,7 @@ const CONTACTS = [
   { label: 'GitHub', href: 'https://github.com/MolDesigner', Icon: GithubIcon, external: true },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/luis-%C3%A1ngel-urdez-rojas-203253301/',
+    href: 'https://www.linkedin.com/in/%C3%A1ngel-urdez-203253301',
     Icon: LinkedinIcon,
     external: true,
   },

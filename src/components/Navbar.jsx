@@ -1,7 +1,7 @@
 import { FlaskConical } from 'lucide-react'
 
 const GITHUB_URL = 'https://github.com/MolDesigner'
-const LINKEDIN_URL = 'https://www.linkedin.com/in/luis-%C3%A1ngel-urdez-rojas-203253301/'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/%C3%A1ngel-urdez-203253301'
 
 const NAV_ITEMS = [
   { label: 'Proyectos', href: '#proyectos' },
