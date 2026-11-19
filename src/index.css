@@ -1,37 +1,103 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Pareja «Academic/Research» de UI/UX Pro Max: Crimson Pro para titulares,
+     de tono editorial y científico, y Atkinson Hyperlegible para el texto,
+     diseñada para máxima legibilidad. Plex Mono queda para los datos. */
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-display: "Crimson Pro", Georgia, "Times New Roman", serif;
 
-  --color-ink: #09090b;
-  --color-surface: #0f0f12;
-  --color-line: rgb(255 255 255 / 0.08);
-  --color-accent: #7dd3fc;
-  --color-accent-2: #a78bfa;
-  --color-accent-3: #34d399;
+  /* Paleta clara «Research Lab» (UI/UX Pro Max): fondo #F8FAFC, tarjetas
+     blancas, texto #0F172A. El acento conserva la idea de la fluoresceína,
+     excitación en azul y emisión en verde, en tonos con contraste AA. */
+  --color-ink: #f8fafc;
+  --color-surface: #ffffff;
+  --color-fg: #0f172a;
+  --color-line: #dbe3ee;
+  --color-accent: #2563eb;
+  --color-accent-2: #1e3a5f;
+  --color-accent-3: #047857;
+
+  /* La escala zinc se invierte: los componentes usan zinc-100 para el texto
+     más fuerte y zinc-500 para el secundario, así que basta con redefinirla.
+     Todos los tonos de texto cumplen 4.5:1 sobre blanco. */
+  --color-zinc-100: #0f172a;
+  --color-zinc-200: #1e293b;
+  --color-zinc-300: #334155;
+  --color-zinc-400: #475569;
+  --color-zinc-500: #5b6779;
+  --color-zinc-600: #64748b;
+  --color-zinc-700: #a3b1c4;
+  --color-zinc-800: #dbe3ee;
+  --color-zinc-900: #eef2f7;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
 
   /* Las curvas nativas de CSS son demasiado suaves; estas tienen intención. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  --animate-fade-up: fade-up 0.7s var(--ease-out) both;
+}
 
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+/* Variables que no son colores de Tailwind pero cambian con el tema. */
+:root {
+  --flicker-rgb: 37, 99, 235;
+  --viewport-bg: #eef2f7;
+  --viewport-line: rgb(30 58 95 / 0.06);
+  --heading-from: #0f172a;
+  --heading-to: #1e3a5f;
+  --card-shadow:
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 12px 32px -16px rgb(15 23 42 / 0.16);
+}
+
+/* Modo oscuro: la paleta azul noche original. Se redefinen los mismos tokens
+   que usan los componentes, así nada en JSX depende del tema. Los tonos
+   -700 (íconos y métricas, oscuros para fondo claro) vuelven a sus
+   equivalentes -300, legibles sobre fondo oscuro. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ink: #05080f;
+  --color-surface: #0a111d;
+  --color-fg: #e8f0fa;
+  --color-line: rgb(140 180 255 / 0.12);
+  --color-accent: #3ccfff;
+  --color-accent-2: #7aa2ff;
+  --color-accent-3: #5ef08f;
+  --color-zinc-100: #e8f0fa;
+  --color-zinc-200: #cfdbea;
+  --color-zinc-300: #aebdd1;
+  --color-zinc-400: #8b9bb2;
+  --color-zinc-500: #7a8aa1;
+  --color-zinc-600: #6b7b92;
+  --color-zinc-700: #2e3b50;
+  --color-zinc-800: #1b2537;
+  --color-zinc-900: #0f1624;
+  --color-sky-700: #7dd3fc;
+  --color-rose-700: #fda4af;
+  --color-violet-700: #c4b5fd;
+  --color-amber-700: #fcd34d;
+  --color-amber-800: #fde68a;
+  --color-emerald-700: #6ee7b7;
+  --color-lime-700: #bef264;
+  --flicker-rgb: 60, 207, 255;
+  --viewport-bg: #03060b;
+  --viewport-line: rgb(120 170 255 / 0.05);
+  --heading-from: #f4f8ff;
+  --heading-to: #8ea3bd;
+  --card-shadow:
+    0 0 0 1px rgb(140 180 255 / 0.04),
+    0 16px 40px -20px rgb(0 0 0 / 0.7);
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -40,9 +106,16 @@
     font-feature-settings: "ss01", "cv11";
   }
 
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
   ::selection {
-    background: rgb(125 211 252 / 0.25);
-    color: #fff;
+    background: rgb(37 99 235 / 0.18);
+    color: var(--color-fg);
   }
 
   :focus-visible {
@@ -75,40 +148,110 @@ p a:active {
   transform: none;
 }
 
+/* Papel milimetrado: retícula fina cada 14 px y mayor cada 70 px. */
 @utility bg-grid {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(to right, rgb(30 58 95 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(30 58 95 / 0.07) 1px, transparent 1px),
+    linear-gradient(to right, rgb(30 58 95 / 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(30 58 95 / 0.03) 1px, transparent 1px);
+  background-size:
+    70px 70px,
+    70px 70px,
+    14px 14px,
+    14px 14px;
 }
 
 @utility text-gradient {
-  background-image: linear-gradient(180deg, #fafafa 20%, #a1a1aa 100%);
+  background-image: linear-gradient(180deg, var(--heading-from) 30%, var(--heading-to) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Tarjeta con halo que sigue al cursor (variables --mx/--my desde JS) */
-@utility spotlight {
+/* Línea espectral: de la excitación (491 nm) a la emisión (514 nm). */
+@utility spectrum-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent) 20%, var(--color-accent-3) 80%, transparent);
+  opacity: 0.7;
+}
+
+/* Tarjeta principal: en el tema claro la jerarquía la da una sombra suave en
+   capas (contacto + ambiente), no marcas decorativas. */
+@utility hud {
   position: relative;
-  isolation: isolate;
+  box-shadow: var(--card-shadow);
+}
+
+/* Fondo del visor de carteles: retícula de mesa de luz. */
+@utility viewport {
+  border-radius: var(--radius-md);
+  background-color: var(--viewport-bg);
+  background-image:
+    linear-gradient(to right, var(--viewport-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--viewport-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Etiqueta de sección: ruta en minúsculas, no un rótulo en mayúsculas. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-zinc-500);
+}
+
+@utility tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-zinc-300);
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+  &:hover:not(:disabled) {
+    color: var(--color-zinc-100);
+    border-color: rgb(37 99 235 / 0.4);
+    background: rgb(37 99 235 / 0.06);
+  }
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+/* Borde con brillo que sigue al cursor (MagicCard). El gradiente se recorta
+   al anillo de 1 px con una máscara, así nunca tapa el contenido. Solo existe
+   con puntero fino: en táctil no hay hover que seguir. */
+@utility magic-card {
+  position: relative;
   &::before {
     content: "";
     position: absolute;
-    inset: 0;
-    z-index: -1;
+    inset: -1px;
     border-radius: inherit;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    padding: 1px;
+    pointer-events: none;
     background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 50%),
-      rgb(125 211 252 / 0.09),
-      transparent 60%
+      240px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(37 99 235 / 0.55),
+      rgb(4 120 87 / 0.25) 40%,
+      transparent 70%
     );
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
   }
-  &:hover::before {
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before {
+      opacity: 1;
+    }
   }
 }
 
@@ -178,6 +321,216 @@ p a:active {
     opacity: 0;
     transform: scale(0.96);
   }
+}
+
+/* Cambio de imagen en los carruseles: una cortina diagonal descubre la imagen
+   nueva sobre la anterior mientras se asienta desde un leve acercamiento.
+   Solo clip-path, transform y opacity (compuestos por GPU). `swap-next`
+   descubre de derecha a izquierda (avanzar) y `swap-prev` al revés. */
+@keyframes swap-next {
+  from {
+    opacity: 0.35;
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 112% 100%);
+    transform: scale(1.06);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    clip-path: polygon(-12% 0, 100% 0, 100% 100%, 0 100%);
+    transform: scale(1);
+  }
+}
+
+@keyframes swap-prev {
+  from {
+    opacity: 0.35;
+    clip-path: polygon(-12% 0, 0 0, 0 100%, 0 100%);
+    transform: scale(1.06);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    clip-path: polygon(-12% 0, 112% 0, 100% 100%, 0 100%);
+    transform: scale(1);
+  }
+}
+
+/* La imagen anterior se desvanece mientras la nueva entra: nunca se queda de
+   fondo. `forwards` la deja invisible al terminar. */
+@keyframes swap-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@utility swap-out {
+  animation: swap-out 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility swap-next {
+  animation: swap-next 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@utility swap-prev {
+  animation: swap-prev 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Deslizamiento homogéneo: la pieza saliente y la entrante se mueven juntas,
+   a la misma velocidad y con una curva simétrica (arranca y frena suave),
+   como un carrete. Solo transform. Vertical para carteles, horizontal para
+   fotos y el carrusel de «Sobre mí». `both` deja cada pieza en su sitio final. */
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes slide-out-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+@keyframes slide-in-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes slide-out-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes slide-in-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes slide-in-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@utility slide-in-up {
+  animation: slide-in-up 800ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-out-up {
+  animation: slide-out-up 800ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-in-down {
+  animation: slide-in-down 800ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-out-down {
+  animation: slide-out-down 800ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-in-left {
+  animation: slide-in-left 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-out-left {
+  animation: slide-out-left 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-in-right {
+  animation: slide-in-right 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility slide-out-right {
+  animation: slide-out-right 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* Certificados: fundido con profundidad. El saliente se aleja (se encoge y
+   se desvanece) mientras el entrante se acerca hasta su tamaño. Ambos a la
+   vez, con la misma curva simétrica: homogéneo, pero distinto del deslizar. */
+@keyframes cert-in {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes cert-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+@utility cert-in {
+  animation: cert-in 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility cert-out {
+  animation: cert-out 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes autoplay-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Salida de los modales (ver useExitClose): más corta que la entrada y con la
+   misma curva. Vive fuera de las capas para ganarle a las utilidades. */
+.modal-backdrop[data-closing] {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms var(--ease-out);
+}
+
+.modal-backdrop[data-closing] .modal-panel {
+  opacity: 0;
+  transform: scale(0.97);
+  transition:
+    opacity 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
 }
 
 /* Movimiento reducido significa menos movimiento, no ninguno: se conservan

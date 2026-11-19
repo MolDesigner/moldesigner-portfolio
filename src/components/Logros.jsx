@@ -1,7 +1,77 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Award, BookOpen, FileCheck2, GraduationCap, Mic, ShieldCheck, Users, X } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Award, BookOpen, Download, FileCheck2, GraduationCap, Mic, ShieldCheck, Users, X } from 'lucide-react'
+import ZoomCanvas from './ZoomCanvas.jsx'
+import { useReveal } from '../lib/motion.js'
+import useExitClose from '../hooks/useExitClose.js'
+import useAutoplay from '../hooks/useAutoplay.js'
+import AutoplayControls from './AutoplayControls.jsx'
+
+const AWARD_DELAY = 3500
+
+/* Vitrina de premios: el PDF del premio en grande, con zoom, rotando entre
+   los cinco. Las tarjetas de abajo eligen cuál mostrar. */
+function AwardShowcase({ items, active, setActive, onExpand }) {
+  const rootRef = useRef(null)
+  const item = items[active]
+  // Certificado saliente: se deriva del cambio de `active` durante el render.
+  const [shown, setShown] = useState(active)
+  const [leaving, setLeaving] = useState(null)
+  if (shown !== active) {
+    setLeaving(shown)
+    setShown(active)
+  }
+  const autoplay = useAutoplay(rootRef, {
+    delay: AWARD_DELAY,
+    stepKey: active,
+    onAdvance: () => setActive((index) => (index + 1) % items.length),
+  })
+
+  return (
+    <div ref={rootRef} {...autoplay.bind} data-reveal className="hud mb-6 grid gap-6 rounded-2xl border border-line bg-surface p-4 sm:p-6 lg:grid-cols-12">
+      <div className="relative h-[380px] overflow-hidden sm:h-[480px] lg:col-span-8">
+        {leaving !== null && leaving !== active && (
+          <div key={`salida-${leaving}-${active}`} aria-hidden="true" className="cert-out pointer-events-none absolute inset-0">
+            <ZoomCanvas src={items[leaving].doc} preview={items[leaving].doc} alt="" ratio={items[leaving].ratio} />
+          </div>
+        )}
+        <div key={item.id} className={`absolute inset-0 ${leaving !== null ? 'cert-in' : ''}`}>
+          <ZoomCanvas src={item.scan} preview={item.doc} alt={`Documento: ${item.title}`} ratio={item.ratio} onExpand={onExpand} />
+        </div>
+      </div>
+      <div key={`${item.id}-info`} className="grid-enter flex flex-col lg:col-span-4">
+        <p className="font-mono text-[11px] text-zinc-500">
+          Premio · {item.year}
+        </p>
+        <h3 className="mt-2 text-2xl leading-tight font-semibold text-balance text-zinc-100">{item.title}</h3>
+        <p className="mt-2 text-sm text-zinc-300">{item.issuer}</p>
+        <p className="mt-4 text-sm leading-relaxed text-pretty">{item.detail}</p>
+        <a
+          href={item.pdf}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-6 inline-flex w-fit items-center gap-2 rounded-md border border-line px-3 py-2 text-[13px] text-zinc-100 transition-ui hover:border-accent/40 hover:bg-accent/[0.06]"
+        >
+          <Download className="size-4" aria-hidden="true" />
+          Abrir el PDF original
+        </a>
+        <AutoplayControls {...autoplay} delay={AWARD_DELAY} stepKey={active} label="los premios" className="mt-auto pt-6" />
+      </div>
+    </div>
+  )
+}
 
 const CERT = '/images/certificados'
+const PREMIO_IMG = '/images/premios'
+const PREMIO_PDF = '/docs/premios'
+
+/* Premios con su PDF original: `scan` es la página a alta resolución para el
+   zoom, `doc` la vista ligera y `ratio` la proporción ancho/alto del documento. */
+const award = (name, width, height) => ({
+  doc: `${PREMIO_IMG}/${name}-sm.jpg`,
+  scan: `${PREMIO_IMG}/${name}.jpg`,
+  pdf: `${PREMIO_PDF}/${name}.pdf`,
+  ratio: width / height,
+})
 
 /* Cada logro está verificado contra su documento en la carpeta de Drive.
    `doc: null` = logro real sin escaneo publicado (documento de identidad). */
@@ -58,7 +128,7 @@ const ACHIEVEMENTS = [
     issuer: 'CENEVAL',
     detail:
       'Máximo nivel de desempeño del Examen General para el Egreso de la Licenciatura, otorgado el 26 de enero de 2026.',
-    doc: `${CERT}/egel-sobresaliente.jpg`,
+    ...award('egel', 1693, 2205),
     highlight: true,
   },
   {
@@ -69,7 +139,7 @@ const ACHIEVEMENTS = [
     issuer: 'ANFEQUI',
     detail:
       'Reconocimiento de la Asociación Nacional de Facultades y Escuelas de Química al rendimiento académico sobresaliente.',
-    doc: `${CERT}/anfequi-galardon.jpg`,
+    ...award('anfequi', 2164, 1671),
     highlight: true,
   },
   {
@@ -80,7 +150,7 @@ const ACHIEVEMENTS = [
     issuer: 'Semana Cultural, Facultad de Química, UAQ',
     detail:
       'Distinción al cartel sobre optimización de la síntesis de fluoresceína asistida por microondas con resina de intercambio iónico como catalizador.',
-    doc: `${CERT}/cartel-excelencia-uaq.jpg`,
+    ...award('cartel-excelencia', 2200, 1700),
     highlight: true,
   },
   {
@@ -91,7 +161,7 @@ const ACHIEVEMENTS = [
     issuer: 'XVIII Reunión de la AMQO, Monterrey',
     detail:
       'Primer lugar en el concurso de carteles de la Academia Mexicana de Química Orgánica, con el trabajo sobre síntesis de fluoresceína asistida por microondas.',
-    doc: `${CERT}/amqo-primer-lugar-carteles.jpg`,
+    ...award('amqo-carteles', 2200, 1700),
     highlight: true,
   },
   {
@@ -101,7 +171,7 @@ const ACHIEVEMENTS = [
     title: 'Primer lugar en divulgación científica',
     issuer: 'AMQO · «La química en la vida cotidiana»',
     detail: 'Primer lugar del concurso de divulgación científica en formato de video corto.',
-    doc: `${CERT}/amqo-primer-lugar-divulgacion.jpg`,
+    ...award('amqo-divulgacion', 2199, 1647),
   },
 
   // ---------- Investigación ----------
@@ -356,7 +426,6 @@ const ACHIEVEMENTS = [
 ]
 
 const GROUPS = [
-  { id: 'todos', label: 'Todos', icon: FileCheck2 },
   { id: 'premios', label: 'Premios', icon: Award },
   { id: 'formacion', label: 'Formación', icon: GraduationCap },
   { id: 'investigacion', label: 'Investigación', icon: ShieldCheck },
@@ -367,7 +436,8 @@ const GROUPS = [
 
 const GROUP_LABEL = Object.fromEntries(GROUPS.map((g) => [g.id, g.label]))
 
-function Viewer({ items, index, onClose, onStep }) {
+function Viewer({ items, index, onClose: close, onStep }) {
+  const [closing, onClose] = useExitClose(close)
   const item = items[index]
 
   useEffect(() => {
@@ -389,25 +459,35 @@ function Viewer({ items, index, onClose, onStep }) {
     <div
       role="dialog"
       aria-modal="true"
+      data-closing={closing || undefined}
       aria-label={item.title}
       className="modal-backdrop fixed inset-0 z-50 flex flex-col bg-ink/95 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
     >
       <div className="modal-panel mx-auto flex w-full max-w-5xl items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[11px] tracking-wider text-zinc-500 uppercase">
+          <p className="font-mono text-[11px] text-zinc-500">
             {GROUP_LABEL[item.group]} · {item.year}
           </p>
           <p className="mt-1 text-sm font-medium text-zinc-100">{item.title}</p>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Cerrar"
-          className="rounded-md border border-line p-2 text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
-        >
-          <X className="size-5" />
-        </button>
+        <div className="flex shrink-0 items-center gap-1">
+          {item.pdf && (
+            <a
+              href={item.pdf}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              className="inline-flex h-9 items-center gap-2 rounded-md border border-line px-3 text-[13px] text-zinc-200 transition-ui hover:border-accent/40 hover:bg-accent/[0.06]"
+            >
+              <Download className="size-4" aria-hidden="true" />
+              Abrir PDF
+            </a>
+          )}
+          <button type="button" onClick={onClose} aria-label="Cerrar" className="tool-btn">
+            <X className="size-5" />
+          </button>
+        </div>
       </div>
 
       <div
@@ -415,7 +495,18 @@ function Viewer({ items, index, onClose, onStep }) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex min-h-0 flex-1 items-center justify-center">
-          {item.doc ? (
+          {item.pdf ? (
+            <div className="h-full w-full">
+              <ZoomCanvas
+                key={item.id}
+                src={item.scan}
+                preview={item.doc}
+                alt={`Documento: ${item.title}`}
+                ratio={item.ratio}
+                immersive
+              />
+            </div>
+          ) : item.doc ? (
             <img
               src={item.doc}
               alt={`Documento: ${item.title}`}
@@ -424,7 +515,7 @@ function Viewer({ items, index, onClose, onStep }) {
             />
           ) : (
             <div className="flex max-w-md flex-col items-center gap-3 rounded-xl border border-line bg-surface/80 p-10 text-center">
-              <ShieldCheck className="size-8 text-emerald-300" aria-hidden="true" />
+              <ShieldCheck className="size-8 text-emerald-700" aria-hidden="true" />
               <p className="text-sm text-pretty text-zinc-400">{item.docNote}</p>
             </div>
           )}
@@ -439,7 +530,7 @@ function Viewer({ items, index, onClose, onStep }) {
           <button
             type="button"
             onClick={() => onStep(-1)}
-            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
+            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-fg/5 hover:text-zinc-100"
           >
             Anterior
           </button>
@@ -449,7 +540,7 @@ function Viewer({ items, index, onClose, onStep }) {
           <button
             type="button"
             onClick={() => onStep(1)}
-            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-white/5 hover:text-zinc-100"
+            className="rounded-md border border-line px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-ui hover:bg-fg/5 hover:text-zinc-100"
           >
             Siguiente
           </button>
@@ -460,16 +551,20 @@ function Viewer({ items, index, onClose, onStep }) {
 }
 
 export default function Logros() {
-  const [group, setGroup] = useState('todos')
+  const revealRef = useRef(null)
+  useReveal(revealRef)
+  const [group, setGroup] = useState('premios')
   const [open, setOpen] = useState(null)
+  const [featured, setFeatured] = useState(0)
+  const showcase = group === 'premios'
 
   const items = useMemo(
-    () => (group === 'todos' ? ACHIEVEMENTS : ACHIEVEMENTS.filter((item) => item.group === group)),
+    () => ACHIEVEMENTS.filter((item) => item.group === group),
     [group],
   )
 
   const counts = useMemo(() => {
-    const base = { todos: ACHIEVEMENTS.length }
+    const base = {}
     for (const item of ACHIEVEMENTS) base[item.group] = (base[item.group] ?? 0) + 1
     return base
   }, [])
@@ -483,21 +578,21 @@ export default function Logros() {
   const withDoc = ACHIEVEMENTS.filter((item) => item.doc).length
 
   return (
-    <section id="logros" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20 sm:px-8 md:py-28">
-      <header className="mb-8">
-        <p className="font-mono text-xs tracking-wider text-zinc-500 uppercase">
-          <span className="text-accent">04</span> · Trayectoria
+    <section ref={revealRef} id="logros" className="mx-auto max-w-6xl 2xl:max-w-7xl scroll-mt-20 px-5 py-16 sm:px-8 md:py-20">
+      <header className="mb-8" data-reveal>
+        <p className="eyebrow">
+          <span className="text-accent">~/</span>logros
         </p>
         <h2 className="text-gradient mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-[2.5rem] sm:leading-[1.1]">
           Logros y certificados
         </h2>
         <p className="mt-3 max-w-2xl text-pretty">
-          {ACHIEVEMENTS.length} logros verificados, {withDoc} con su documento consultable. Filtra por categoría y
-          haz clic en cualquiera para ver el certificado completo.
+          {ACHIEVEMENTS.length} logros verificados, {withDoc} con su documento consultable. Los premios se muestran en
+          grande con su PDF original; acércalo para leer cualquier detalle.
         </p>
       </header>
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div data-reveal className="mb-8 flex flex-wrap gap-2">
         {GROUPS.map(({ id, label, icon: Icon }) => {
           const active = group === id
           return (
@@ -511,8 +606,8 @@ export default function Logros() {
               aria-pressed={active}
               className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[13px] transition-ui ${
                 active
-                  ? 'border-white/20 bg-white/10 text-zinc-100'
-                  : 'border-line text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
+                  ? 'border-fg/20 bg-fg/10 text-zinc-100'
+                  : 'border-line text-zinc-400 hover:bg-fg/5 hover:text-zinc-200'
               }`}
             >
               <Icon className="size-3.5" aria-hidden="true" />
@@ -525,20 +620,27 @@ export default function Logros() {
 
       {/* La key por categoría remonta la lista al filtrar, y grid-enter atenúa
           esa entrada en lugar de reemplazar 35 tarjetas de golpe. */}
+      {showcase && (
+        <AwardShowcase items={items} active={featured} setActive={setFeatured} onExpand={() => setOpen(featured)} />
+      )}
+
       <ul key={group} className="grid-enter grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => (
-          <li key={item.id}>
+          <li key={item.id} data-reveal>
             <button
               type="button"
-              onClick={() => setOpen(index)}
+              onClick={() => (showcase ? setFeatured(index) : setOpen(index))}
+              aria-pressed={showcase ? index === featured : undefined}
               className={`group flex h-full w-full flex-col rounded-xl border p-4 text-left transition-ui ${
-                item.highlight
-                  ? 'border-amber-300/20 bg-gradient-to-br from-amber-300/[0.06] to-transparent hover:border-amber-300/40'
-                  : 'border-line bg-surface/80 hover:border-white/20'
+                showcase && index === featured
+                  ? 'border-accent/50 bg-accent/[0.05] ring-2 ring-accent/20'
+                  : item.highlight
+                  ? 'border-amber-500/20 bg-gradient-to-br from-amber-300/[0.06] to-transparent hover:border-amber-500/40'
+                  : 'border-line bg-surface/80 hover:border-fg/20'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <span className="font-mono text-[11px] tracking-wider text-zinc-500 uppercase">
+                <span className="font-mono text-[11px] text-zinc-500">
                   {GROUP_LABEL[item.group]}
                 </span>
                 <span className="font-mono text-[11px] text-zinc-500">{item.year}</span>
@@ -557,7 +659,7 @@ export default function Logros() {
                 {item.doc ? (
                   <>
                     <FileCheck2 className="size-3" aria-hidden="true" />
-                    Ver documento
+                    {showcase ? 'Mostrar en grande' : item.pdf ? 'Ver PDF con zoom' : 'Ver documento'}
                   </>
                 ) : (
                   <>

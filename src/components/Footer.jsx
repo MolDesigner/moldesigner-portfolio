@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import { Mail } from 'lucide-react'
+import { useReveal } from '../lib/motion.js'
 
 function GithubIcon(props) {
   return (
@@ -16,31 +18,46 @@ function LinkedinIcon(props) {
   )
 }
 
+const LINKEDIN_URL = 'https://www.linkedin.com/in/%C3%A1ngel-urdez-203253301'
+
 const CURRENT_YEAR = new Date().getFullYear()
 
 const CONTACTS = [
   { label: 'langelur7@gmail.com', href: 'mailto:langelur7@gmail.com', Icon: Mail, external: false },
+  { label: 'lurdez31@alumnos.uaq.mx', href: 'mailto:lurdez31@alumnos.uaq.mx', Icon: Mail, external: false },
   { label: 'GitHub', href: 'https://github.com/MolDesigner', Icon: GithubIcon, external: true },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/%C3%A1ngel-urdez-203253301',
+    href: LINKEDIN_URL,
     Icon: LinkedinIcon,
     external: true,
   },
 ]
 
 export default function Footer() {
+  const revealRef = useRef(null)
+  useReveal(revealRef)
   return (
-    <footer id="contacto" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="text-gradient text-2xl font-semibold tracking-tight">¿Colaboramos?</p>
+    <footer ref={revealRef} id="contacto" className="scroll-mt-20 border-t border-line">
+      <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-end md:justify-between">
+        <div data-reveal>
+          <p className="text-gradient text-2xl font-semibold tracking-tight">Si te interesa colaborar, escríbeme</p>
           <p className="mt-2 max-w-sm text-sm text-pretty">
             Abierto a proyectos de investigación en IA aplicada a química, farmacia y biomedicina.
           </p>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-zinc-100 px-5 text-sm font-medium text-zinc-900 transition-ui hover:bg-zinc-200"
+          >
+            <LinkedinIcon className="size-4" />
+            Escríbeme por LinkedIn
+          </a>
+          <p className="mt-2 text-[13px] text-zinc-500">Es la forma más rápida de contactarme.</p>
         </div>
 
-        <ul className="flex flex-col gap-3 text-sm sm:flex-row sm:flex-wrap sm:gap-6">
+        <ul data-reveal className="flex flex-col gap-3 text-sm sm:flex-row sm:flex-wrap sm:gap-6">
           {CONTACTS.map(({ label, href, Icon, external }) => (
             <li key={label}>
               <a
@@ -56,7 +73,7 @@ export default function Footer() {
         </ul>
       </div>
 
-      <div className="mx-auto max-w-6xl border-t border-line px-5 py-6 font-mono text-xs text-zinc-600 sm:px-8">
+      <div className="mx-auto max-w-6xl 2xl:max-w-7xl border-t border-line px-5 py-6 font-mono text-xs text-zinc-600 sm:px-8">
         © {CURRENT_YEAR} Luis Ángel Urdez Rojas · MolDesigner
       </div>
     </footer>

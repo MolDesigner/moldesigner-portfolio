@@ -5,11 +5,30 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Ángel Urdez (MolDesigner) — QFB y M.C. en Inteligencia Artificial (UAQ). Descubrimiento de fármacos in silico, redes neuronales de grafos y visión computacional biomédica." />
-    <meta name="theme-color" content="#09090b" />
+    <meta name="theme-color" content="#f8fafc" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>Ángel Urdez · MolDesigner</title>
+    <script>
+      // Al abrir o recargar, la página empieza arriba (en la foto de perfil):
+      // sin restaurar el scroll anterior ni saltar al ancla que quedó en la URL.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+      // Chrome conserva el ancla de la navegación inicial aunque se quite con
+      // replaceState, así que se redirige a la misma dirección sin ella. Ocurre
+      // antes de cargar estilos o scripts, por lo que el costo es mínimo.
+      if (location.hash) location.replace(location.pathname + location.search)
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      // Tema antes del primer pintado: el guardado o, si no hay, el del sistema.
+      try {
+        var saved = localStorage.getItem('theme')
+        var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        document.documentElement.dataset.theme = theme
+        if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#05080f')
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
