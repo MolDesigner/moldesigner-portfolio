@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { label: 'Proyectos', href: '#proyectos' },
   { label: 'Stack', href: '#stack' },
   { label: 'Formación', href: '#formacion' },
+  { label: 'Logros', href: '#logros' },
   { label: 'Contacto', href: '#contacto' },
 ]
 

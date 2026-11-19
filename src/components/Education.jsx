@@ -20,13 +20,13 @@ const DEGREES = [
 const AWARDS = [
   {
     icon: Trophy,
-    title: 'Mejor promedio de generación',
+    title: 'Promedio 9.44 / 10',
     detail: 'Licenciatura en QFB · UAQ',
   },
   {
     icon: Award,
-    title: 'Premio CENEVAL al Desempeño de Excelencia',
-    detail: 'EGEL-QFB',
+    title: 'Testimonio de Desempeño Sobresaliente',
+    detail: 'EGEL-QFB · CENEVAL',
   },
 ]
 
