@@ -426,12 +426,14 @@ export default function ProjectsBento() {
     })
   }, [])
 
-  /* Flechas del teclado: navegan el carrusel solo si el lightbox está cerrado */
+  /* Flechas del teclado: navegan el carrusel solo si no hay ningún modal abierto,
+     ni el lightbox de esta sección ni el visor de certificados de otra. */
   useEffect(() => {
     if (lightbox) return
     const onKey = (event) => {
       const tag = event.target.tagName
       if (tag === 'INPUT' || tag === 'TEXTAREA' || event.target.isContentEditable) return
+      if (document.querySelector('[role="dialog"]')) return
       if (event.key === 'ArrowRight') go(1)
       if (event.key === 'ArrowLeft') go(-1)
     }
