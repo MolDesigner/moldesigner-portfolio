@@ -8,7 +8,7 @@ export const PHOTOS = [
     "date": "2023-04-03",
     "width": 1600,
     "height": 1197,
-    "caption": "Cena en el 65 aniversario de la Facultad de Química de la UAQ"
+    "caption": "Cena en el 65 aniversario de la Facultad de Química de la UAQ, junto con el Dr. Sosa y mi amiga Betty"
   },
   {
     "src": "/images/galeria/comunidad/2024/2024-06-05-profesores.webp",
@@ -44,7 +44,7 @@ export const PHOTOS = [
     "date": "2024-09-04",
     "width": 1600,
     "height": 1200,
-    "caption": "Celebración del cumpleaños 5 de la Dra. Rosalía, durante mi estancia como ayudante de investigación SNI III"
+    "caption": "Celebración del cumpleaños 55 de la Dra. Rosalía, durante mi estancia como ayudante de investigación SNI III"
   },
   {
     "src": "/images/galeria/comunidad/2025/2025-06-29-fiesta.webp",
