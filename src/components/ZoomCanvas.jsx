@@ -12,8 +12,10 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
    transformación se aplica alrededor de su centro: para acercar hacia un punto
    p (relativo al centro del marco) se mantiene fijo ese punto, t' = p − (p − t)·s'/s.
    `immersive` (pantalla completa) deja que la rueda haga zoom; en la página la
-   rueda sigue desplazando el documento y el zoom exige Ctrl/⌘ o los botones. */
-export default function ZoomCanvas({ src, preview, alt, ratio = POSTER_RATIO, immersive = false, onExpand }) {
+   rueda sigue desplazando el documento y el zoom exige Ctrl/⌘ o los botones.
+   `onZoom` avisa cuando el usuario acerca: los carruseles lo usan para pausarse,
+   porque quien acerca algo quiere leerlo con calma. */
+export default function ZoomCanvas({ src, preview, alt, ratio = POSTER_RATIO, immersive = false, onExpand, onZoom }) {
   const frameRef = useRef(null)
   const bodyRef = useRef(null)
   const pointers = useRef(new Map())
@@ -141,6 +143,13 @@ export default function ZoomCanvas({ src, preview, alt, ratio = POSTER_RATIO, im
   }
 
   const zoomed = view.s > 1.01
+  const zoomCallback = useRef(onZoom)
+  useLayoutEffect(() => {
+    zoomCallback.current = onZoom
+  })
+  useEffect(() => {
+    if (zoomed) zoomCallback.current?.()
+  }, [zoomed])
 
   return (
     <div className="relative flex h-full min-h-0 flex-col">

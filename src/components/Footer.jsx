@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Mail } from 'lucide-react'
 import { useReveal } from '../lib/motion.js'
+import { INSTAGRAM_URL, InstagramIcon } from './Instagram.jsx'
 
 function GithubIcon(props) {
   return (
@@ -32,6 +33,7 @@ const CONTACTS = [
     Icon: LinkedinIcon,
     external: true,
   },
+  { label: 'Instagram', href: INSTAGRAM_URL, Icon: InstagramIcon, external: true },
 ]
 
 export default function Footer() {

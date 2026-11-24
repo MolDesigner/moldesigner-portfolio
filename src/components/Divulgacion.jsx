@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Award, Download, Volume2 } from 'lucide-react'
 import { useReveal } from '../lib/motion.js'
 import ZoomCanvas from './ZoomCanvas.jsx'
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, InstagramIcon } from './Instagram.jsx'
 
 const VIDEO = '/media/divulgacion-bioluminiscencia.mp4'
 // Volumen inicial: 20 %. El usuario lo puede subir con los controles.
@@ -102,6 +103,15 @@ export default function Divulgacion() {
           Un video de un minuto para explicar por qué algunos seres vivos producen luz. Ganó el primer lugar del
           concurso de divulgación «La química en la vida cotidiana» de la Academia Mexicana de Química Orgánica.
         </p>
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-5 inline-flex items-center gap-2 rounded-md border border-line px-3 py-2 text-[13px] text-zinc-100 transition-ui hover:border-accent/40 hover:bg-accent/[0.06]"
+        >
+          <InstagramIcon className="size-4" />
+          Más divulgación en Instagram · {INSTAGRAM_HANDLE}
+        </a>
       </header>
 
       <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">

@@ -22,7 +22,7 @@ const dateFormat = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'lo
 const formatDate = (iso) => dateFormat.format(new Date(`${iso}T12:00:00Z`))
 const pad = (n) => String(n).padStart(2, '0')
 
-function Fullscreen({ photo, onClose: close }) {
+function Fullscreen({ photo, onClose: close, onZoom }) {
   const [closing, onClose] = useExitClose(close)
   useEffect(() => {
     const onKey = (event) => {
@@ -56,7 +56,7 @@ function Fullscreen({ photo, onClose: close }) {
       </div>
       <div className="spectrum-line modal-panel mt-3 mb-3" />
       <div className="modal-panel min-h-0 flex-1">
-        <ZoomCanvas src={photo.src} preview={photo.src} alt={photo.caption} ratio={photo.width / photo.height} immersive />
+        <ZoomCanvas src={photo.src} preview={photo.src} alt={photo.caption} ratio={photo.width / photo.height} immersive onZoom={onZoom} />
       </div>
     </div>
   )
@@ -362,7 +362,7 @@ export default function Galeria() {
         </div>
       </div>
 
-      {fullscreen && <Fullscreen photo={photo} onClose={() => setFullscreen(false)} />}
+      {fullscreen && <Fullscreen photo={photo} onClose={() => setFullscreen(false)} onZoom={() => autoplay.setPaused(true)} />}
     </section>
   )
 }

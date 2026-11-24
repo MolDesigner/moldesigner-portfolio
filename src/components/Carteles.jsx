@@ -88,7 +88,7 @@ const POSTERS = [
   },
 ]
 
-function FullscreenViewer({ poster, onClose: close }) {
+function FullscreenViewer({ poster, onClose: close, onZoom }) {
   const [closing, onClose] = useExitClose(close)
   useEffect(() => {
     const onKey = (event) => {
@@ -129,7 +129,7 @@ function FullscreenViewer({ poster, onClose: close }) {
       </div>
       <div className="spectrum-line modal-panel mt-3 mb-3" />
       <div className="modal-panel min-h-0 flex-1">
-        <ZoomCanvas src={poster.src} preview={poster.preview} alt={poster.title} immersive />
+        <ZoomCanvas src={poster.src} preview={poster.preview} alt={poster.title} immersive onZoom={onZoom} />
       </div>
     </div>
   )
@@ -166,6 +166,9 @@ export default function Carteles() {
     pauseOnHover: false,
     onAdvance: () => setCurrent((current + 1) % POSTERS.length),
   })
+  // Acercar un cartel lo pausa como el botón: queda quieto hasta reanudarlo.
+  const { setPaused } = autoplay
+  const pause = useCallback(() => setPaused(true), [setPaused])
 
   return (
     <section ref={revealRef} id="carteles" className="mx-auto max-w-6xl 2xl:max-w-7xl scroll-mt-20 px-5 py-16 sm:px-8 md:py-20">
@@ -292,13 +295,19 @@ export default function Carteles() {
               key={poster.id}
               className={`absolute inset-0 ${previous !== null ? (dir < 0 ? 'slide-in-down' : 'slide-in-up') : ''}`}
             >
-              <ZoomCanvas src={poster.src} preview={poster.preview} alt={poster.title} onExpand={() => setFullscreen(true)} />
+              <ZoomCanvas
+                src={poster.src}
+                preview={poster.preview}
+                alt={poster.title}
+                onExpand={() => setFullscreen(true)}
+                onZoom={pause}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {fullscreen && <FullscreenViewer poster={poster} onClose={close} />}
+      {fullscreen && <FullscreenViewer poster={poster} onClose={close} onZoom={pause} />}
     </section>
   )
 }

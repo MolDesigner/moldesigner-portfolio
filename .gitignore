@@ -28,3 +28,8 @@ dist-ssr
 skills-lock.json
 .vercel
 .env*
+
+# Fotos originales pendientes de agregar a la galería (no se publican)
+fotos-nuevas/**
+!fotos-nuevas/**/
+!fotos-nuevas/**/LEEME.md

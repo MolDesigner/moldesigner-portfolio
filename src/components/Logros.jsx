@@ -35,7 +35,14 @@ function AwardShowcase({ items, active, setActive, onExpand }) {
           </div>
         )}
         <div key={item.id} className={`absolute inset-0 ${leaving !== null ? 'cert-in' : ''}`}>
-          <ZoomCanvas src={item.scan} preview={item.doc} alt={`Documento: ${item.title}`} ratio={item.ratio} onExpand={onExpand} />
+          <ZoomCanvas
+            src={item.scan}
+            preview={item.doc}
+            alt={`Documento: ${item.title}`}
+            ratio={item.ratio}
+            onExpand={onExpand}
+            onZoom={() => autoplay.setPaused(true)}
+          />
         </div>
       </div>
       <div key={`${item.id}-info`} className="grid-enter flex flex-col lg:col-span-4">

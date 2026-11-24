@@ -182,6 +182,24 @@ export const PHOTOS = [
     "caption": "Cartel 44 enfocado en reposicionamiento de fármacos para MRP4 durante el 13vo Encuentro de jóvenes investigadores e invesitgadoras"
   },
   {
+    "src": "/images/galeria/congresos/2026/2026-11-23-cartel-47-jovenes-investigadores.webp",
+    "thumb": "/images/galeria/congresos/2026/2026-11-23-cartel-47-jovenes-investigadores-t.webp",
+    "section": "congresos",
+    "date": "2026-11-23",
+    "width": 1357,
+    "height": 1600,
+    "caption": "Cartel 47 sobre la clasificación de células sanguíneas periféricas mediante redes neuronales convolucionales (CNN) durante el 14vo Encuentro de jóvenes investigadores e investigadoras"
+  },
+  {
+    "src": "/images/galeria/congresos/2026/2026-11-23-14-encuentro-jovenes-investigadores.webp",
+    "thumb": "/images/galeria/congresos/2026/2026-11-23-14-encuentro-jovenes-investigadores-t.webp",
+    "section": "congresos",
+    "date": "2026-11-23",
+    "width": 1073,
+    "height": 1600,
+    "caption": "En el 14vo Encuentro de jóvenes investigadores e investigadoras"
+  },
+  {
     "src": "/images/galeria/laboratorio/2021/2021-02-21-practica.webp",
     "thumb": "/images/galeria/laboratorio/2021/2021-02-21-practica-t.webp",
     "section": "laboratorio",
