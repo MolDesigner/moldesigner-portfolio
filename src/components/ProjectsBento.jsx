@@ -17,21 +17,21 @@ const PROJECTS = [
     label: 'Tesis de Maestría',
     title: 'Descubrimiento de nuevos fármacos antibacterianos empleando IA',
     summary:
-      'Red neuronal de grafos (D-MPNN) multitarea entrenada con ensayos de PubChem BioAssay contra tres dianas de S. aureus para priorizar moléculas activas.',
+      'Red neuronal de grafos (D-MPNN) multitarea entrenada con ensayos de PubChem BioAssay contra dianas de S. aureus para priorizar moléculas con potencial actividad antibiótica.',
     brief: {
       problema:
-        'Staphylococcus aureus resistente es cada vez más difícil de tratar, y en los ensayos de cribado masivo apenas alrededor del 1 % de las moléculas resulta activa: encontrar candidatos a mano es lento y caro.',
+        'Staphylococcus aureus se ha convertido en un problema de salud pública a nivel mundial debido a su resistencia a los antibióticos, manteniendose en la lista de bacterias prioritarias publicada por la OMS. Por otro lado los ensayos de HTS concentran apenas alrededor de 1 % de moléculas activas, puesto que encontrar candidatos a mano hoy en día es un proceso lento y costoso.',
       importancia:
-        'La resistencia a los antibióticos es una de las principales amenazas de salud pública. Priorizar compuestos con IA reduce cuántos hay que sintetizar y probar en el laboratorio.',
+        'La resistencia a los antibióticos es una de las principales amenazas de salud pública. POr lo que emplear soluciones basadas en IA reduce la cantidad de moléculas que hay que sintetizar en el laboratorio y probar en modelos in vitro, reduciendo el espacio de búsqueda, lo que ahorra tiempo y reduce los costos.',
       objetivo:
-        'Desarrollar un modelo multitarea D-MPNN que prediga actividad contra S. aureus, aplicarlo al cribado virtual de ZINC20, LANaPDB y COCONUT y explicar cada predicción con búsqueda de árbol de Monte Carlo.',
+        'Desarrollar un modelo D-MPNN multitarea que permita prioriar moleculas con potencial actividad contra S. aureus, aplicandolo al proceso de cribado virtual empleando quimiotecas como ZINC20, LANaPDB y COCONUT y utilizar XAI para explicar las predicciones con búsqueda de árbol de Monte Carlo, para lograr identificar scaffolds que permitan encontrar nuevas familias de antibióticos.',
     },
     metrics: [
       { value: '3', label: 'dianas en multitarea' },
       { value: '80:10:10', label: 'split por scaffold' },
       { value: 'XAI', label: 'árboles de Monte Carlo' },
     ],
-    tags: ['Chemprop D-MPNN', 'Multitarea', 'Optuna TPE', 'MCTS'],
+    tags: ['Chemprop D-MPNN', 'Multitarea', 'MCTS'],
     icon: Network,
     tone: 'text-sky-700',
     accent: 'sky',
@@ -43,7 +43,7 @@ const PROJECTS = [
         pdf: `${DOC}/fundamento-dmpnn.pdf`,
         alt: 'Diagrama del paso de mensajes de la D-MPNN',
         caption:
-          'Fundamento del D-MPNN: el SMILES se convierte en un grafo molecular, los mensajes viajan por los enlaces dirigidos y se agregan en un embedding de la molécula que una red feed-forward usa para predecir la actividad en cada diana.',
+          'Fundamento de la arquitectira D-MPNN: el SMILES se convierte en un grafo molecular, los mensajes viajan por los enlaces dirigidos y se agregan en un embedding de la molécula que una red feed-forward usa para predecir la actividad en cada diana.',
       },
       {
         src: `${IMG}/antibacteriano/metodologia.jpg`,
@@ -52,7 +52,7 @@ const PROJECTS = [
         pdf: `${DOC}/metodologia-antibacteriano.pdf`,
         alt: 'Diagrama de la metodología del proyecto antibacteriano',
         caption:
-          'Metodología: curación de los ensayos de PubChem BioAssay contra S. aureus, partición por scaffold, entrenamiento del D-MPNN multitarea frente a modelos de tarea única, cribado virtual de ZINC20, LANaPDB y COCONUT, explicabilidad por búsqueda de árbol de Monte Carlo y filtros de accesibilidad sintética y ADMET.',
+          'Metodología propuesta para el proyecto.',
       },
     ],
   },
@@ -62,15 +62,15 @@ const PROJECTS = [
     label: 'Visión por computadora · Maestría en IA',
     title: 'Clasificación de Células Sanguíneas Periféricas mediante Redes Neuronales Convolucionales',
     summary:
-      'CNN jerárquica entrenada desde cero sobre 31,489 imágenes de KU-Optofil PBC: un generalista de 10 clases y tres especialistas binarios para 13 tipos celulares.',
+      'CNN entrenada desde cero utilizando 31,489 imágenes de KU-Optofil PBC. La prpuesta incluye un modelo generalista de 10 clases y tres especialistas binarios para 3 tipos celulares díficiles.',
     brief: {
       problema:
-        'La clasificación de células sanguíneas se hace revisando cientos de células al microscopio: es lenta, costosa y cambia entre observadores, sobre todo en células de transición. Los analizadores automáticos básicos pasan por alto detalles morfológicos.',
+        'La clasificación de células sanguíneas se realiza revisando cientos de células al microscopio, se trata de un proceso lento, costoso y con variabilidad entre observadores, sobre todo en células de la misma linea pero diferentes etapas de maduración o función. Los analizadores automáticos básicos pasan por alto detalles morfológicos que son importantes en ciertas patologías como anemia o leucemias.',
       importancia:
         'Las proporciones de cada tipo celular son indicadores tempranos de infecciones, alergias y leucemias. Un error o un retraso en este conteo puede llevar a un diagnóstico o tratamiento equivocado.',
-      objetivo: 'Desarrollar un clasificador automático de 13 tipos de células sanguíneas periféricas entrenado íntegramente desde cero.',
+      objetivo: 'Desarrollar un clasificador automático de 13 tipos de células sanguíneas periféricas entrenado y con una arquitectura diseñada desde cero.',
       conclusiones:
-        'Una CNN de 4.79 M de parámetros, sin preentrenamiento, superó a DenseNet-121 (0.9523 / 0.8059). Dividir el problema en dos niveles fue lo único que mejoró a la vez exactitud y F1, y redujo casi 10 veces la variación entre semillas.',
+        'Una CNN de 4.79 M de parámetros, sin preentrenamiento, superó a DenseNet-121 (0.9523 / 0.8059). Demostrando que dividir el problema en dos niveles mejoró a la vez exactitud y F1, y redujo la variación entre semillas.',
     },
     metrics: [
       { value: '0.9597', label: 'exactitud en prueba' },
@@ -83,14 +83,6 @@ const PROJECTS = [
     accent: 'rose',
     figures: [
       {
-        src: `${IMG}/celulas/matriz-generalista.jpg`,
-        width: 1600,
-        height: 1523,
-        alt: 'Matriz de confusión del modelo generalista de 10 clases',
-        caption:
-          'Matriz de confusión normalizada del generalista optimizado con Optuna sobre sus 10 superclases. Basófilo y neutrófilo se reconocen sin error; la confusión más alta, granulocito inmaduro → monocito (0.14), la resuelve el especialista de granulocitos.',
-      },
-      {
         src: `${IMG}/celulas/arquitectura.jpg`,
         width: 764,
         height: 432,
@@ -98,6 +90,14 @@ const PROJECTS = [
         caption:
           'Arquitectura: cinco bloques Conv-BN-ReLU con MaxPool que reducen la imagen de 368 × 368 a 11 × 11 × 512, agrupación global promedio y un clasificador denso con dropout.',
       },
+      {
+        src: `${IMG}/celulas/matriz-generalista.jpg`,
+        width: 1600,
+        height: 1523,
+        alt: 'Matriz de confusión del modelo generalista de 10 clases',
+        caption:
+          'Matriz de confusión normalizada del generalista optimizado con Optuna sobre sus 10 superclases.',
+      }, 
     ],
   },
   {
@@ -106,27 +106,34 @@ const PROJECTS = [
     label: 'Histopatología · Maestría en IA',
     title: 'Generalización entre Hospitales en la Detección de Metástasis mediante Redes Neuronales Convolucionales',
     summary:
-      'CNN binaria programada desde cero sobre Camelyon17-WILDS que se evalúa en un hospital que nunca vio durante el entrenamiento.',
+      'CNN binaria programada desde cero sobre Camelyon17-WILDS que se evalúa en dos hospitales que nunca vio durante el entrenamiento.',
     brief: {
       problema:
-        'Para detectar metástasis de cáncer de mama se revisa el ganglio centinela teñido con H&E. La lámina es enorme y cerca del 95 % del tejido es normal, y la tinción y el escáner cambian entre hospitales, así que un modelo puede fallar en uno nuevo.',
+        'Para detectar metástasis de cáncer de mama se revisa el ganglio centinela teñido con tinción H&E. La lámina es enorme y cerca del 95 % del tejido es normal. La tinción y el escáner varian entre hospitales, añadiendo errores y dificultad, pues un modelo puede fallar en hospitales no vistos.',
       importancia:
-        'Con tiempo limitado, la sensibilidad del patólogo baja a un AUC de 0.884 (Bejnordi et al., 2017). Una herramienta que priorice las regiones sospechosas reduce el tiempo de análisis y orienta la interpretación.',
+        'Con tiempo limitado, la sensibilidad del patólogo baja a un AUC de 0.884 (Bejnordi et al., 2017). Una herramienta que priorice las regiones sospechosas reduce el tiempo de análisis, además al integrar XAI orienta la explicabilidad.',
       objetivo:
-        'Desarrollar un clasificador de imágenes histopatológicas que detecte tejido metastásico, medir su robustez en hospitales no vistos con cuatro niveles de aumento de datos, fijar un umbral con sensibilidad de 0.95 y explicar sus decisiones con Grad-CAM como método de XAI.',
+        'Desarrollar un clasificador de imágenes histopatológicas que detecte tejido metastásico con una alta sensibilidad, medir su robustez en hospitales no vistos con cuatro niveles de aumento de datos y utilice métodos de XAI para explicar sus decisiones con Grad-CAM.',
       conclusiones:
-        'El aumento de color en el espacio H&E/DAB sostuvo un AUC de 0.980 en el hospital no visto. Con el umbral de decisión se detecta el 98.4 % de las metástasis y se evita revisar el 31.7 % del tejido. Grad-CAM mostró que la red se fija en los núcleos tumorales.',
+        'El aumento de color en el espacio H&E/DAB sostuvo un AUC de 0.980 en el hospital no visto. Con el umbral de decisión se detecta el 98.4 % de las metástasis y se evita revisar el 31.7 % del tejido. Grad-CAM mostró que la red se fija en las células anormales.',
     },
     metrics: [
       { value: '0.980', label: 'AUC fuera de dominio' },
       { value: '98.4 %', label: 'sensibilidad' },
       { value: '31.7 %', label: 'carga evitada' },
     ],
-    tags: ['PyTorch', 'Camelyon17-WILDS', 'H&E/DAB', 'Grad-CAM (XAI)'],
+    tags: ['PyTorch', 'Camelyon17-WILDS', 'H&E', 'Grad-CAM (XAI)'],
     icon: ScanSearch,
     tone: 'text-violet-700',
     accent: 'violet',
     figures: [
+      {
+        src: `${IMG}/metastasis/arquitectura.jpg`,
+        width: 727,
+        height: 681,
+        alt: 'Arquitectura de la CNN base',
+        caption: 'Modelo base: tres bloques convolucionales (32 → 64 → 128 filtros) y un clasificador lineal con sigmoide; 111,681 parámetros en total.',
+      },
       {
         src: `${IMG}/metastasis/gradcam.jpg`,
         width: 1442,
@@ -144,13 +151,6 @@ const PROJECTS = [
           'Parches normales y con tumor de los cinco hospitales: tres de entrenamiento, uno de validación y uno de prueba que el modelo nunca ve. La variación de tinción entre centros es el reto de generalización.',
       },
       {
-        src: `${IMG}/metastasis/arquitectura.jpg`,
-        width: 727,
-        height: 681,
-        alt: 'Arquitectura de la CNN base',
-        caption: 'Modelo base: tres bloques convolucionales (32 → 64 → 128 filtros) y un clasificador lineal con sigmoide; 111,681 parámetros en total.',
-      },
-      {
         src: `${IMG}/metastasis/presentacion-portada.jpg`,
         width: 1600,
         height: 900,
@@ -166,14 +166,14 @@ const PROJECTS = [
     label: 'Modelos generativos · Maestría en IA',
     title: 'Generación de novo de Estructuras Moleculares mediante Redes Neuronales Recurrentes',
     summary:
-      'Redes LSTM entrenadas con 1.56 millones de moléculas de MOSES que escriben moléculas nuevas, válidas y con propiedades de fármaco.',
+      'Redes LSTM entrenadas con 1.56 millones de moléculas de la base de datos de MOSES que escriben moléculas nuevas, válidas y con propiedades de fármaco.',
     brief: {
       problema:
-        'Se estima que existen entre 10²³ y 10⁶⁰ moléculas posibles con tamaño de fármaco, pero los catálogos más grandes apenas reúnen 10⁶–10⁸ compuestos. Explorar ese espacio por fuerza bruta es imposible.',
+        'Se estima que existen entre 10²³ y 10⁶⁰ moléculas posibles con tamaño de fármaco (incluso mas), pero los catálogos más grandes apenas reúnen 10⁶–10⁸ compuestos. Explorar ese espacio por fuerza bruta es practicamente imposible.',
       importancia:
         'Llevar un fármaco al mercado toma más de una década, cuesta unos 2,600 millones de dólares y solo cerca del 10 % lo logra. Generar candidatos nuevos y válidos acelera la búsqueda.',
       objetivo:
-        'Entrenar redes recurrentes LSTM que aprendan las reglas del lenguaje SMILES y generen moléculas nuevas, válidas y parecidas a fármacos reales, evaluadas en el benchmark MOSES.',
+        'Entrenar redes recurrentes LSTM que aprendan las reglas del lenguaje SMILES y generen moléculas nuevas, válidas y parecidas a fármacos reales.',
       conclusiones:
         'Cambiar la representación (ClearSMILES con reescritura aleatoria) ayudó más que añadir parámetros: los inválidos bajaron de más del 3 % al 1 %. El mejor modelo llegó a 99.2 % de validez y FCD de 0.0896, con 9 de 9 métricas al nivel del estado del arte.',
     },
@@ -187,6 +187,13 @@ const PROJECTS = [
     tone: 'text-amber-700',
     accent: 'amber',
     figures: [
+      {
+        src: `${IMG}/generacion/arquitectura.jpg`,
+        width: 444,
+        height: 275,
+        alt: 'Arquitectura de la red LSTM',
+        caption: 'Arquitectura: embedding de 64 dimensiones, dos capas LSTM de 256 unidades y una capa lineal que predice el siguiente token del SMILES.',
+      },
       {
         src: `${IMG}/generacion/moleculas-qed-sa.jpg`,
         width: 1000,
@@ -210,13 +217,6 @@ const PROJECTS = [
         alt: 'Curvas de entrenamiento y validación',
         caption: 'Entropía cruzada de entrenamiento y validación por época: ambas bajan juntas, sin señales de sobreajuste.',
       },
-      {
-        src: `${IMG}/generacion/arquitectura.jpg`,
-        width: 444,
-        height: 275,
-        alt: 'Arquitectura de la red LSTM',
-        caption: 'Arquitectura: embedding de 64 dimensiones, dos capas LSTM de 256 unidades y una capa lineal que predice el siguiente token del SMILES.',
-      },
     ],
   },
   {
@@ -228,20 +228,20 @@ const PROJECTS = [
       'Cribado virtual de 36,454 productos naturales y 9,125 fármacos contra MRP4, diana de quimiorresistencia en leucemia linfoblástica aguda.',
     brief: {
       problema:
-        'En la leucemia linfoblástica aguda, el transportador MRP4 se sobreexpresa y expulsa a los fármacos fuera de la célula, una de las causas de la quimiorresistencia.',
+        'En la leucemia linfoblástica aguda, el transportador MRP4 se sobreexpresa y expulsa a los fármacos fuera de la célula, una de las principales causas se debe a la quimiorresistencia mediada por bombas de eflujo como MRP4.',
       importancia:
-        'Inhibir MRP4 podría devolver su eficacia a los tratamientos. Buscar inhibidores por métodos computacionales es mucho más rápido y barato que probar cada compuesto en el laboratorio.',
+        'Inhibir MRP4 podría devolver su eficacia a los tratamientos. Buscar inhibidores por métodos computacionales reduce el espacio de búsqueda, disminuyendo costos al priorizar a moléculas prometedoras.',
       objetivo:
-        'Identificar inhibidores potenciales de MRP4 entre productos naturales y fármacos aprobados mediante acoplamiento molecular, dinámica molecular y metadinámica.',
+        'Identificar inhibidores potenciales de MRP4 entre productos naturales y fármacos aprobados mediante acoplamiento molecular, dinámica molecular, metadinámica y análisis quimioinformático.',
       conclusiones:
         'Los candidatos prioritarios, como imatinib y avatrombopag, alcanzaron afinidades teóricas de −64.55 y −60.81 kcal/mol por metadinámica, lo que los propone para validación experimental.',
     },
     metrics: [
-      { value: '−64.55', label: 'ΔG imatinib (kcal/mol)' },
-      { value: '90.4', label: 'AUC retrospectivo (8IZ7)' },
+      { value: '90.4', label: 'AUC (8IZ7)' },
       { value: '100 ns', label: 'dinámica por complejo' },
+      { value: '−64.55', label: 'ΔG imatinib (kcal/mol)' },
     ],
-    tags: ['GNINA', 'Ensemble docking', 'SILE / MPO', 'Metadinámica'],
+    tags: ['GNINA', 'Ensemble docking', 'SILE', 'Metadinámica'],
     icon: Pill,
     tone: 'text-emerald-700',
     accent: 'emerald',
@@ -256,12 +256,12 @@ const PROJECTS = [
     label: 'Química verde, primer lugar AMQO 2023',
     title: 'Optimización de la síntesis de fluoresceína asistida por microondas empleando una resina de intercambio iónico como catalizador',
     summary:
-      'Síntesis asistida por microondas con Amberlita-15, una resina de intercambio catiónico reutilizable, en lugar del ZnCl₂ estequiométrico.',
+      'Síntesis asistida por microondas con Amberlita-15, una resina de intercambio catiónico reutilizable, en lugar del ZnCl₂ utilizado en el método tradicional.',
     brief: {
       problema:
-        'La síntesis tradicional de fluoresceína usa cloruro de zinc en exceso como catalizador: es difícil de separar del producto, termina como contaminante y no se puede reutilizar.',
+        'La síntesis tradicional de fluoresceína propuesta inicialmente por Adolf von Baeyer usa cloruro de zinc en exceso como catalizador, haciendo que sea difícil de separar del producto, termina como contaminante y no se puede reutilizar.',
       importancia:
-        'La fluoresceína se usa como biomarcador y en microscopía, oftalmología y criminología. Una ruta más limpia y rápida reduce residuos y tiempo, en línea con la química verde.',
+        'La fluoresceína se usa como biomarcador y en microscopía, oftalmología y criminología. Una ruta más limpia y rápida reduce residuos y tiempo, en línea con la química verde. Además evita pasos de purificación para generar fluoresceína de grado farmacéutico.',
       objetivo:
         'Optimizar la síntesis con un catalizador sólido reutilizable asistido por microondas, determinar su rendimiento y confirmar la estructura con tres técnicas instrumentales.',
       conclusiones:
@@ -270,7 +270,7 @@ const PROJECTS = [
     metrics: [
       { value: '89.6 %', label: 'rendimiento máximo' },
       { value: '10 min', label: 'tiempo de reacción' },
-      { value: '0.9935', label: 'R² de calibración' },
+      { value: '0.9935', label: 'R²' },
     ],
     tags: ['Amberlita-15', 'Microondas', 'HPLC · IR', 'Fluorimetría'],
     icon: FlaskConical,
